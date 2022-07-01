@@ -1,0 +1,60 @@
+/* body.dark {
+  background-color: #121212 !important;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body.light {
+  background-color: #fff !important;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.card-design{
+  background-color: #424242 !important;
+  color: #fff !important;
+}
+
+
+
+.text-color-dark{
+  color: #fff !important;
+}
+
+
+
+.white-content {
+  background: #e4e4e4 !important;
+}
+.bg-color
+{
+  background-color: #fff;
+}
+ */
+
+.alt-active {
+  background-color: rgb(255, 115, 0) !important;
+  padding: 10px !important;
+  color: #fff !important;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@media only screen and (min-width: 992px) {
+
+  .large-devices-margin {
+    margin-left: 240px !important;
+    margin-right: 240px !important;
+  }
+}
+
