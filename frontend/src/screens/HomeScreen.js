@@ -26,7 +26,7 @@ const HomeScreen = () =>{
    
 
     const dispatch = useDispatch();
-    const { blogs, message, status } = useSelector(state => state.tutorials);
+    const { blogs, message, status } = useSelector(state => state.blogs);
 
     const [searchParams] = useSearchParams();
     const keyword = searchParams.get('keyword');
@@ -56,7 +56,8 @@ const HomeScreen = () =>{
                     <Categories />
 
                 </Grid>
-                
+                {
+                    blogs.length <= 0 && status === 'success' ? <h4>No data found</h4>:
                 <Grid xs={12} md={6} lg={8.5}  item>
                     {status === "loading" ? <Loaders />
                         : status === "failed" ? <Alert severity="error">{message}</Alert>
@@ -71,6 +72,7 @@ const HomeScreen = () =>{
 }
                     
                 </Grid>
+                }
                
             </Grid>
         

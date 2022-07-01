@@ -7,7 +7,7 @@ router.route('/blogs/:keyword').get(blogsGet);
 router.route('/new').post(blogCreate);
 router.route('/blogDetails/:id').get(blogGetById);
 router.route('/blogDelete/:id').delete(blogDelete);
-router.route('/posts/categories').get(categories);
+router.route('/categories').get(categories);
 router.route('/blogUpdate/:id').put(blogUpdate);
 
 

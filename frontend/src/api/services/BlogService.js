@@ -1,4 +1,8 @@
 import http from "../http-common";
+
+const fetchCategories = () =>{
+    return http.get(`blogs/categories`);
+}
 const getAll = (keyword) => {
     return http.get(`/blogs/${keyword}`);
 };
@@ -32,6 +36,7 @@ const TutorialService = {
     remove,
     removeAll,
     findByTitle,
-    findById
+    findById,
+    fetchCategories
 };
 export default TutorialService;

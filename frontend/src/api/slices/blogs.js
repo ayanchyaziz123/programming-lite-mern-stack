@@ -4,9 +4,20 @@ import BlogDataService from "../services/BlogService";
 const initialState =  {
     blogs: [],
     blog: [],
+    categories: [],
+    cat_message: [],
     message: [],
     status: null,
 };
+
+export const blogCategories = createAsyncThunk(
+    "blogs/categories",
+    async () =>{
+        const res = await BlogDataService.fetchCategories();
+        return res.data;
+    }
+)
+
 export const createBlog = createAsyncThunk(
     "blogs/create",
     async (blog) => {
@@ -141,6 +152,22 @@ const BlogSlice = createSlice({
         },
 
         ///end
+
+        // categories
+
+        [blogCategories.pending]: (state, action) => {
+            state.status = "loading";
+            state.categories = [];
+        },
+        [blogCategories.fulfilled]: (state, action) => {
+            state.status = "success";
+            state.categories = action.payload.categories;
+        },
+        [blogCategories.rejected]: (state, action) => {
+            state.status = "failed";
+            state.cat_message = action.error.message;
+            
+        },
 
 
 

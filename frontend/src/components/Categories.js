@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useCallback} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Accordion from '@mui/material/Accordion';
@@ -12,45 +12,37 @@ import { useParams } from "react-router";
 import '../components/style.css';
 import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
+import { useDispatch, useSelector } from "react-redux";
+import {fetchCategories} from '../api/slices/categories'
+import { ConstructionOutlined } from '@mui/icons-material';
 
 const baseURL = `http://localhost:4000/api/vv1/blogs`;
 
 const Categories = () => {
-
-    let { id } = useParams();
-    const [loading, setLoading] = React.useState(false);
-    const [error, setError] = React.useState(false);
-    const [categories, setCategories] = React.useState(null);
-
-    const cats = categories ? categories.reduce((catMemo, { category, title, _id }) => {
-        (catMemo[category] = catMemo[category] || []).push([title, _id]);
-        return catMemo;
-    }, {}) : null;
-
-
-    React.useEffect(() => {
-
-
-        setLoading(true);
-        axios.get(baseURL).then((response)  => {
-            setCategories(response.data.posts);
-            //setCategories(response.data.categories);
-            setLoading(false);
-        }).catch((error) => {
-            setError(true);
-            setLoading(false);
-        });
     
+    const dispatch = useDispatch();
+    let { id } = useParams();
+    const { categories, message, status } = useSelector(state => state.category);
+    // const categories = useSelector(state => state.category);
+    // // console.log("cat : ", categories);
 
 
+    const initFetch = useCallback(() => {
+        dispatch(fetchCategories());
+    }, [dispatch])
 
-    }, []);
+    useEffect(() => {
+
+        initFetch();
+    }, [initFetch])
+    
+    console.log("cat : ", categories);
    
     return (
         <div>
 
             {
-                !cats ? null : Object.keys(cats).map(cat => (
+                !categories ? null : Object.keys(categories).map(cat => (
                     <Accordion sx={{ mt: 1 }} TransitionProps={{ unmountOnExit: true }} defaultExpanded>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -61,14 +53,14 @@ const Categories = () => {
                             <Typography><b>{cat}</b></Typography>
                         </AccordionSummary >
                         
-                        {cats[cat].map(ord => (
+                        {categories[cat].map(ord => (
                             <div >
                                 <AccordionDetails>
 
                                     {/* <Typography component={Link} to={`/blogDetailScreen/${ord[1]}`} style={{ textDecoration: 'none' }} className={id == ord[1] ? 'alt-active' : null}> */}
                                     <CardActionArea component={Link} to={`/blogDetailScreen/${ord[1]}`} className={id == ord[1] ? 'alt-active' : null}>
                                         <Typography color='info'>
-                                            {ord[0]}
+                                            {`${ord[0].substring(0, 50)}...`}
                                         </Typography>
                                         </CardActionArea>
                             
@@ -80,6 +72,7 @@ const Categories = () => {
                         ))}
                     </Accordion>
                 ))
+               
             }
 
 

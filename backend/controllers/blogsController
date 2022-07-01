@@ -14,22 +14,19 @@ const Post = require('../models/posts');
 // }
 
 
+// categories here
 exports.categories = async (req, res, next) => {
-    console.log("I am Called22222 Categories");
+    console.log("hello world !!");
+    
     try {
-        const posts = Post.find();
-        console.log("I am OKKKK", posts);
-        // const sorted = posts.reduce((result, post) => {
-        //     const a = result.find(({ category }) => category === post.category);
-        //     a ? a.post.push(post) : result.push({ category: post.category, post: [post] });
-        //     console.log(result);
-        //     return result;
-
-        // }, []);
+        const categories = await Post.find();
+        const cats = categories ? categories.reduce((catMemo, { category, title, _id }) => {
+            (catMemo[category] = catMemo[category] || []).push([title, _id]);
+            return catMemo;
+        }, {}) : null;
         res.status(200).json({
             success: true,
-            count: posts.length,
-            posts
+            categories: cats
         })
 
 
@@ -43,13 +40,14 @@ exports.categories = async (req, res, next) => {
     }
 }
 
+
+
 //to create a new post
 
 exports.blogCreate = async (req, res, next) => {
     try {
 
         const data = req.body.blog;
-        console.log("I am called ", data);
         const post = await Post.create(data);
         // const post = new Post({
         //     category: request.res.category,
