@@ -4,7 +4,7 @@ const fetchCategories = () =>{
     return http.get(`blogs/categories`);
 }
 const getAll = (keyword) => {
-    return http.get(`/blogs/${keyword}`);
+    return http.get(`${keyword}`);
 };
 const get = id => {
     return http.get(`/blogDetails/${id}`);

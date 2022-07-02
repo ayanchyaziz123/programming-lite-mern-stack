@@ -7,6 +7,8 @@ const initialState =  {
     categories: [],
     cat_message: [],
     message: [],
+    pages: [],
+    page: 1,
     status: null,
 };
 
@@ -90,6 +92,8 @@ const BlogSlice = createSlice({
         [retrieveBlogs.fulfilled]: (state, action) => {
             state.status = "success";
             state.blogs = action.payload.posts;
+            state.pages = action.payload.pages;
+            state.page = action.payload.page;
         },
         [retrieveBlogs.rejected]: (state, action) => {
             state.status = "failed";

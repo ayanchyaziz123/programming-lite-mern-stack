@@ -225,7 +225,7 @@ export default function PrimarySearchAppBar(props) {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="static" color="inherit">
                 <Container>
                 <Toolbar>
                     
@@ -233,7 +233,7 @@ export default function PrimarySearchAppBar(props) {
                         variant="h6"
                         noWrap
                         component="div"
-                        sx={{ display: { xs: 'none', sm: 'block', color: 'white', textDecoration: 'none'} }}
+                        sx={{ display: { xs: 'none', sm: 'block', color: 'inherit', textDecoration: 'none'} }}
                         component={Link} to="/"
                     >
                         ProgrammingLite
@@ -244,7 +244,7 @@ export default function PrimarySearchAppBar(props) {
                             <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase
-                            placeholder="Search…"
+                            placeholder="Search…."
                             inputProps={{ 'aria-label': 'search' }}
                             onChange={(e) => setKeyword(e.target.value)}
                             onKeyPress={searchHandler}

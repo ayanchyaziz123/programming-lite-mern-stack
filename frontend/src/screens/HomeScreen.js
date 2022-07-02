@@ -14,6 +14,8 @@ import {
     retrieveBlogs,
 } from '../api/slices/blogs';
 import { useSearchParams } from 'react-router-dom';
+import Pagination from '../components/Pagination';
+import {useLocation} from "react-router-dom";
 
 
 // const baseURL = `http://localhost:4000/api/vv1/posts`;
@@ -26,22 +28,21 @@ const HomeScreen = () =>{
    
 
     const dispatch = useDispatch();
-    const { blogs, message, status } = useSelector(state => state.blogs);
+    const { blogs, message, status, page, pages } = useSelector(state => state.blogs);
 
     const [searchParams] = useSearchParams();
-    const keyword = searchParams.get('keyword');
+    // const keyword = searchParams.get('keyword');
+    // const p = searchParams.get('page');
+    const keyword = useLocation().search;
+
     
 
-    const initFetch = useCallback(() => {
-        dispatch(retrieveBlogs(keyword));
+    useEffect(() => {
+         dispatch(retrieveBlogs(keyword));
     }, [dispatch, keyword])
 
-    useEffect(() => {
-
-        initFetch();
-    }, [initFetch])
-
     // console.log("Blog : ", blog.blogs.posts);
+    
 
 
     return(
@@ -70,8 +71,10 @@ const HomeScreen = () =>{
                     )) : null}
                     </div>
 }
-                    
+
+                   <Pagination pages={pages} page={page} keyword={keyword}/>  
                 </Grid>
+               
                 }
                
             </Grid>

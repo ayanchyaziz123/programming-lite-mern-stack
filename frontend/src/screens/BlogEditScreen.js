@@ -31,7 +31,7 @@ const BlogEditScreen = ({ match, history }) => {
 
     // const baseURL = `http://localhost:4000/api/vv1/posts/postDetails/${id}`;
 
-    const { blog, status } = useSelector(state => state.tutorials);
+    const { blog, status } = useSelector(state => state.blogs);
 
     const navigate = useNavigate();
     const [res, setRes] = React.useState();

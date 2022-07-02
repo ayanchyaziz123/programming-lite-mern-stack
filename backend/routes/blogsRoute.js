@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { blogsGet, blogCreate, blogGetById, blogDelete, blogUpdate, categories } = require('../controllers/blogsController');
 
-router.route('/blogs/:keyword').get(blogsGet);
+router.route('').get(blogsGet);
 router.route('/new').post(blogCreate);
 router.route('/blogDetails/:id').get(blogGetById);
 router.route('/blogDelete/:id').delete(blogDelete);

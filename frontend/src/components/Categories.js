@@ -15,6 +15,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import { useDispatch, useSelector } from "react-redux";
 import {fetchCategories} from '../api/slices/categories'
 import { ConstructionOutlined } from '@mui/icons-material';
+import Loaders2 from './Loaders2';
 
 const baseURL = `http://localhost:4000/api/vv1/blogs`;
 
@@ -36,12 +37,13 @@ const Categories = () => {
         initFetch();
     }, [initFetch])
     
-    console.log("cat : ", categories);
+ 
    
     return (
         <div>
 
             {
+                status == 'loading' ? <Loaders2/> : status == 'failed' ? <p>{message}</p> :
                 !categories ? null : Object.keys(categories).map(cat => (
                     <Accordion sx={{ mt: 1 }} TransitionProps={{ unmountOnExit: true }} defaultExpanded>
                         <AccordionSummary

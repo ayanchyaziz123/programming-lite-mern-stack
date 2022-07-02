@@ -1,20 +1,20 @@
 import React from 'react';
 import Loader from "react-loader-spinner";
 
-const Loaders = () => {
+const Loaders2 = () => {
     return (
         <Loader
             type="Grid"
             color="#212121"
-            height={100}
-            width={100}
+            height={50}
+            width={50}
             timeout={2000} //3 secs
             style={{
-                marginTop: '50px',
+                marginTop: '20px',
                 textAlign: 'center',
             }}
         />
     );
 }
 
-export default Loaders;
+export default Loaders2;
