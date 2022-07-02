@@ -14,6 +14,6 @@ export default function BasicPagination({pages, page, keyword=''}) {
     setCur(value);
   } 
   return (
-      <Pagination count={pages} page={parseInt(page)} color="secondary" onChange={handleChange} />
+      <Pagination count={parseInt(pages)} page={parseInt(page)} color="secondary" onChange={handleChange} />
   );
 }
