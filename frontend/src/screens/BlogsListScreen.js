@@ -11,6 +11,12 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Loaders from '../components/Loaders';
+import Pagination from '../components/Pagination';
+import {useLocation} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    retrieveBlogs,
+} from '../api/slices/blogs';
 
 const baseURL = `http://localhost:4000/api/vv1/blogs`;
 
@@ -21,20 +27,19 @@ const BlogsListScreen = () => {
     const [postDatas, setPostDatas] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(false);
+    const isAdmin = true;
+    const keyword = useLocation().search;
 
+
+    const dispatch = useDispatch();
+    const { blogs, message, status, page, pages } = useSelector(state => state.blogs);
+
+
+    
 
     React.useEffect(() => {
-        setLoading(true);
-        axios.get(baseURL).then((response) => {
-            setPostDatas(response.data.posts);
-            setLoading(false);
-        }).catch((error) => {
-            setError(true);
-            setLoading(false);
-        });
-
-
-    }, []);
+         dispatch(retrieveBlogs(keyword));
+    }, [dispatch, keyword])
 
     const deletePost = (id) => {
         var proceed = window.confirm("Are you sure you want to delete?");
@@ -60,7 +65,7 @@ const BlogsListScreen = () => {
             <Button component={Link} to="/blogAddScreen" variant="contained" color="primary" style={{ margin: '10px 0 10px 0' }}>
                 Add A Post
             </Button>
-            {loading ? <Loaders /> : error ? <h2> Error</h2> :
+            {status == 'loading' ? <Loaders /> : status == 'failed' ? <h2> Error</h2> :
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>
@@ -72,7 +77,7 @@ const BlogsListScreen = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {postDatas.map((post, i) => (
+                            {blogs.map((post, i) => (
                                 <TableRow
                                     key={i}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -93,6 +98,7 @@ const BlogsListScreen = () => {
                     </Table>
                 </TableContainer>
             }
+            <Pagination pages={pages} page={page} keyword={keyword} isAdmin={isAdmin}/>  
         </Container>
     );
 }

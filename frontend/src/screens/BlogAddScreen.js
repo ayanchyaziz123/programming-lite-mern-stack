@@ -33,7 +33,6 @@ const BlogAddScreen = () =>{
     
 
 
-
     const handleSubmit = event =>{
         event.preventDefault();
         const blog = { category: category, title: title, description: description, tags: tags, author: author, content: content, thumbnail: thumbnail }

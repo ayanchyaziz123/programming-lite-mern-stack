@@ -12,6 +12,7 @@ const Loaders = () => {
             style={{
                 marginTop: '50px',
                 textAlign: 'center',
+                color: '#ff9900',
             }}
         />
     );
