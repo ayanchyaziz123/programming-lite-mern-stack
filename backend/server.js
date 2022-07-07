@@ -4,6 +4,7 @@ const connectDatabase = require('./config/database');
 const cors = require("cors");
 const app = express();
 var bodyParser = require('body-parser')
+require('dotenv').config()
 
 
 
@@ -23,8 +24,6 @@ app.use(express.static('./public/uploads'));
 
 
 
-
-const port = 4000
 connectDatabase();
 
 app.use(cors({ origin: true, credentials: true }));
@@ -66,7 +65,6 @@ app.get('/', (req, res) => {
 //     res.send("Multiple Files Upload Success");
 //   });
 
-
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+app.listen(process.env.PORT, () => {
+    console.log(`Example app->> listening at http://localhost:${process.env.PORT}`)
 })
