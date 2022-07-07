@@ -19,6 +19,7 @@ import Comment from '../components/Comment';
 
 
 
+
 const BlogDetailScreen = ({ match, history }) => {
    
     let { id } = useParams();
@@ -30,7 +31,7 @@ const BlogDetailScreen = ({ match, history }) => {
 
 
   
-   
+    
 
         const initFetch = useCallback(() => {
             dispatch(findBlogById({ id: id }));
@@ -50,6 +51,7 @@ const BlogDetailScreen = ({ match, history }) => {
             {status == "loading" ? <Loaders/> : status == "failed" ? <h2>Error</h2> : 
             
                 <div className='large-devices-margin'>
+                    {/* <img src={`http://localhost:4000/${blog.image}`}></img> */}
                 
                 <Grid container spacing={2} >
                         <Grid xs={12} md={6} lg={3.5} item sx={{ mt: 2 }} >

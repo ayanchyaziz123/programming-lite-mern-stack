@@ -29,14 +29,13 @@ const Item = styled(Paper)(({ theme }) => ({
 const Blog = ({ blog}) => {
 
   let theme = localStorage.getItem("theme");
-
     return(
           <Grid item xs={12} md={12}>
                 <CardActionArea component={Link} to={`/blogDetailScreen/${blog._id}`}>
           <Card sx={{ display: 'flex', mb: '17px' }}>
           <CardContent sx={{ flex: 1 }}>
             <Typography component="h2" variant="h5">
-                            {`${blog.description.substring(0, 60)}...`}
+                            {`${blog.title.substring(0, 60)}...`}
             </Typography>
             <Typography variant="subtitle1">
                                 {blog.update_at} @ {blog.tags}
@@ -51,7 +50,7 @@ const Blog = ({ blog}) => {
           <CardMedia
             component="img"
             sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
-                            image="https://i.ytimg.com/vi/XGSoQ0J5An4/maxresdefault.jpg"
+                            image={`http://localhost:4000/${blog.image}`}
             alt={blog.imageLabel}
           />
         </Card>

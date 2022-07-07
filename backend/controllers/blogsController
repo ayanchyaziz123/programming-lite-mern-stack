@@ -47,23 +47,25 @@ exports.categories = async (req, res, next) => {
 
 
 //to create a new post
-
-
+"TODO:: ERROE ON FORM DATA"
 
 exports.blogCreate = async (req, res, next) => {
     try {
-        const data = req.body.blog;
-        console.log("blog, ", blog);
-        const post = await Post.create(data);
-        // const post = new Post({
-        //     category: request.res.category,
-        //     tags: request.res.tags,
-        //     title: request.res.title,
-        //     description: request.res.description,
-        //     author: req.body.author,
-        //     content: ,
-
-        // })
+        // const data = req.body.blog;
+        // console.log("blog create request body-->", req);
+        // const post = await Post.create(data);
+        // console.log(req.body);
+        const post = new Post({
+            category: req.body.category,
+            tags: req.body.tags,
+            title: req.body.title,
+            description: req.body.description,
+            author: req.body.author,
+            content: req.body.content,
+            image: req.file.filename 
+        })
+        post.save();
+        console.log('success');
         res.status(201).json({
             success: true,
             post
@@ -71,6 +73,7 @@ exports.blogCreate = async (req, res, next) => {
 
     }
     catch (error) {
+        console.log('err', error);
         res.status(500).json({
             message: "error"
         })

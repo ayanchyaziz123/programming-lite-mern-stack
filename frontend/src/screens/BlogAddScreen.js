@@ -14,9 +14,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
     createBlog
 } from '../api/slices/blogs';
+import http from '../api/http-3';
 
-const baseURL = `http://localhost:4000/api/vv1/posts/new`;
-
+const baseURL = `http://localhost:4000/api/vv1/new`;
 
 
 const BlogAddScreen = () =>{
@@ -33,11 +33,11 @@ const BlogAddScreen = () =>{
     
 
 
-    const handleSubmit = event =>{
+    const handleSubmit =  async (event) =>{
         event.preventDefault();
-        const blog = { category: category, title: title, description: description, tags: tags, author: author, content: content, thumbnail: thumbnail }
-            dispatch(createBlog({blog: blog}));
-        navigate("/blogsListScreen");
+        // const blog = { category: category, title: title, description: description, tags: tags, author: author, content: content, thumbnail: thumbnail }
+        //     dispatch(createBlog({blog: blog}));
+        // navigate("/blogsListScreen");
         
         // axios.post(baseURL, {post}).then((response) => {
         //         setRes(response.data.post);
@@ -47,13 +47,29 @@ const BlogAddScreen = () =>{
         //         console.log(error);
         //     });
 
+        const formData = new FormData();
+        formData.append("category", category);
+        formData.append("title", title);
+        formData.append("description", description);
+        formData.append("tags", tags);
+        formData.append("author", author);
+        formData.append("content", content);
+        formData.append("thumbnil", thumbnail);
+        // for (var value of formData.values()) {
+        //     console.log(value); 
+        //  }
+
+        dispatch(createBlog(formData));
+        navigate("/blogsListScreen");
+
+
     }
 
 
     return(
        <Container className="bg-color">
             <h1>Add A New Post</h1>
-           <form onSubmit={handleSubmit}>
+           <form onSubmit={handleSubmit}  enctype="multipart/form-data" method="post">
             <Grid container spacing={2}>
                 <Grid item xs={4}>
                     <Box>

@@ -1,4 +1,5 @@
 import http from "../http-common";
+import http3 from "../http-3";
 
 const fetchCategories = () =>{
     return http.get(`blogs/categories`);
@@ -10,7 +11,7 @@ const get = id => {
     return http.get(`/blogDetails/${id}`);
 };
 const create = ( blog ) => {
-    return http.post("/new", blog);
+    return http3.post("/new", blog);
 };
 const update = ({ id, blog}) => {
     return http.put(`/blogUpdate/${id}`, blog);
