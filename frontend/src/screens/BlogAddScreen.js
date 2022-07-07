@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -20,7 +21,9 @@ const baseURL = `http://localhost:4000/api/vv1/new`;
 
 
 const BlogAddScreen = () =>{
+
     const dispatch = useDispatch();
+    const { status, message } = useSelector(state => state.blogs);
     const navigate = useNavigate();
     const [res, setRes] = React.useState();
     const [category, setCategory] = React.useState('');
@@ -60,7 +63,7 @@ const BlogAddScreen = () =>{
         //  }
 
         dispatch(createBlog(formData));
-        navigate("/blogsListScreen");
+        // navigate("/blogsListScreen");
 
 
     }
@@ -68,6 +71,9 @@ const BlogAddScreen = () =>{
 
     return(
        <Container className="bg-color">
+             <Typography component="p" variant="p">
+                        {status == "loading" ? <p>Loading..</p> : status == "failed" ? message : <h2>Blog successfylly added</h2>}
+                 </Typography>
             <h1>Add A New Post</h1>
            <form onSubmit={handleSubmit}  enctype="multipart/form-data" method="post">
             <Grid container spacing={2}>

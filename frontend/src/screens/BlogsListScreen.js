@@ -18,7 +18,7 @@ import {
     retrieveBlogs,
 } from '../api/slices/blogs';
 
-const baseURL = `http://localhost:4000/api/vv1/blogs`;
+const baseURL = `http://localhost:4000/api/blog/blogs`;
 
 
 
@@ -44,7 +44,7 @@ const BlogsListScreen = () => {
     const deletePost = (id) => {
         var proceed = window.confirm("Are you sure you want to delete?");
         if (proceed) {
-            axios.delete(`http://localhost:4000/api/vv1/blogDelete/${id}`).then((res) => {
+            axios.delete(`http://localhost:4000/api/blog/blogDelete/${id}`).then((res) => {
                 console.log("post deleted");
 
 
@@ -65,7 +65,7 @@ const BlogsListScreen = () => {
             <Button component={Link} to="/blogAddScreen" variant="contained" color="primary" style={{ margin: '10px 0 10px 0' }}>
                 Add A Post
             </Button>
-            {status == 'loading' ? <Loaders /> : status == 'failed' ? <h2> Error</h2> :
+            {status == 'loading' ? <Loaders /> : status == 'failed' ? <h2>{message}</h2> :
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>

@@ -78,8 +78,18 @@ const BlogSlice = createSlice({
     name: "tutorial",
     initialState,
     extraReducers: {
+        [createBlog.pending]: (state, action) => {
+            state.status = "loading";
+            state.blogs = [];
+        },
         [createBlog.fulfilled]: (state, action) => {
+            state.status = "success";
             state.blogs.push(action.payload.post);
+        },
+        [createBlog.rejected]: (state, action) => {
+            state.status = "failed";
+            state.message = action.error.message;
+            
         },
 
 
