@@ -1,10 +1,14 @@
 const User = require('../models/user');
+const Token = require('../models/token');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const sendEmail = require('../utils/sendMail');
 
 
 // for creating user
 exports.SignUp = async (req, res, next) => {
+
+    try{
     const user = req.body.user;
     const { firstName, lastName, email, password, password2 } = user;
     if(password != password2){
@@ -25,11 +29,12 @@ exports.SignUp = async (req, res, next) => {
         console.log("error1");
         return res.status(400).json({ error: "Not all fields have been entered." });
     }
-    const existingUser = await User.findOne({ email: email });
-    if (existingUser)
-    {
-        res.status(400).send({ error: 'This email address is already being used' })
-    }
+    // const existingUser = await User.findOne({ email: email });
+    // if (existingUser)
+    // {
+    //     res.status(400).send({ error: 'This email address is already being used' })
+    // }
+    console.log("i am here")
         
 
     const salt = await bcrypt.genSalt();
@@ -40,22 +45,37 @@ exports.SignUp = async (req, res, next) => {
         email,
         password: passwordHash,
     });
+
     const savedUser = await newUser.save();
+    const createToken = jwt.sign({
+        email: savedUser.email,
+        userId: savedUser._id
+    }, 'abcabcadefgh',{
+        expiresIn: '1h'
+    })
+
     let token = await new Token({
-        userId: user._id,
-        token: crypto.randomBytes(32).toString("hex"),
+        userId: savedUser._id,
+        token: createToken,
       }).save();
   
-    const message = `${process.env.BASE_URL}/user/verify/${user.id}/${token.token}`;
-      await sendEmail(user.email, "Verify Email", message);
-  
-      res.send("An Email sent to your account please verify");
-    res.json({ msg: "Go to email and verify your account!!!!" });
+    const message = `http://localhost:3000/api/user/verify/${savedUser.id}/${token.token}`;
+      await sendEmail(savedUser.email, "Verify Email", message);
+      console.log("success");
+      res.status(200).json({ "msg": "Go to email and verify your account!!!!" });
+    }
+    catch (error) {
+        console.log(error)
+        res.status(400).send("An error occured");
+      }
 }
 
 exports.SignUp_verification = async (req, res, next) => {
+    console.log("ID", req.params.id)
+    console.log("Token", req.params.token);
     try {
         const user = await User.findOne({ _id: req.params.id });
+        console.log(user);
         if (!user) return res.status(400).send("Invalid link");
     
         const token = await Token.findOne({
@@ -63,9 +83,25 @@ exports.SignUp_verification = async (req, res, next) => {
           token: req.params.token,
         });
         if (!token) return res.status(400).send("Invalid link");
+        console.log(token)
     
-        await User.updateOne({ _id: user._id, verified: true });
+       try{
+        const id = { _id: user._id };
+        const update = { verified: true };
+        let ver = await User.findOneAndUpdate(id, update, {
+            new: true
+          });
+        const us = await User.findOne({ _id: req.params.id });
         await Token.findByIdAndRemove(token._id);
+
+       }
+       catch(error)
+       {
+          console.log(error);
+       }
+        
+        
+        console.log("successfully!!!!!!!!!!!!!!!!")
     
         res.send("email verified sucessfully");
       } catch (error) {

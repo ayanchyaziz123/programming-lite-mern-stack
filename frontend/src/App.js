@@ -20,6 +20,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { green, purple } from '@mui/material/colors';
 import { GlobalStyles } from '@mui/material';
+import EmailVerify from './screens/auth/EmailVerify';
 
 
 const darkTheme = createTheme({
@@ -112,6 +113,9 @@ const  App = () => {
           </Routes>
           <Routes>
             <Route path='/profile' element={<Profile />} />
+          </Routes>
+          <Routes>
+            <Route path='/api/user/verify/:id/:token' element={<EmailVerify />} />
           </Routes>
           {/* <Routes>
             <Route path="*" element={<NotFoundPage />} />
