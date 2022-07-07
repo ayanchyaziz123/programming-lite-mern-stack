@@ -14,8 +14,6 @@ const checkLogIn = (req, res, next =>{
         next("authentication failed");
 
     }
-    
-
 });
 
 module.exports = checkLogIn;

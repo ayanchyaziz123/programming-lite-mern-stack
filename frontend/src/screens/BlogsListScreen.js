@@ -44,7 +44,7 @@ const BlogsListScreen = () => {
     const deletePost = (id) => {
         var proceed = window.confirm("Are you sure you want to delete?");
         if (proceed) {
-            axios.delete(`http://localhost:4000/api/vv1/posts/deletePost/${id}`).then((res) => {
+            axios.delete(`http://localhost:4000/api/vv1/blogDelete/${id}`).then((res) => {
                 console.log("post deleted");
 
 

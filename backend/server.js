@@ -28,8 +28,8 @@ const port = 4000
 connectDatabase();
 
 app.use(cors({ origin: true, credentials: true }));
-const blogs = require('./routes/blogsRoute');
-const users = require('./routes/usersRoute');
+const blogs = require('./routes/blogRoute');
+const users = require('./routes/userRoute');
 
 
 
