@@ -193,9 +193,9 @@ exports.UpdatePassword = async (req, res, next) => {
             email: user.email,
             password: passwordHash,
         });
-        console.log("im work 2");
+        console.log("im work 2", req.params.id);
         //ERROR HERE TO DO
-        User.updateOne({ _id: request.params.id }, updateUser).then(
+        User.updateOne({ _id: req.params.id }, updateUser).then(
             () => {
                 // res.status(201).json({
                 //     message: 'Thing updated successfully!'
