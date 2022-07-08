@@ -78,13 +78,11 @@ const UserSlice = createSlice({
             state.message = [];
         },
         [SignUp.fulfilled]: (state, action) => {
-            console.log("action1", action.payload.msg);
             state.message = action.payload.msg;
             state.status = null;
         },
         [SignUp.rejected]: (state, action) => {
             state.status = "failed";
-            console.log("action2 ", action.payload.error);
             state.message = action.payload.error;
         },
 

@@ -21,6 +21,8 @@ import Switch from '@mui/material/Switch';
 import { green, purple } from '@mui/material/colors';
 import { GlobalStyles } from '@mui/material';
 import EmailVerify from './screens/auth/EmailVerify';
+import ForgetPasswordScreen from './screens/auth/ForgetPasswordScreen';
+import PasswordVerify from './screens/auth/PasswordVerify';
 
 
 const darkTheme = createTheme({
@@ -110,6 +112,12 @@ const  App = () => {
           </Routes>
           <Routes>
             <Route path='/signUp_screen' element={<SignUpScreen />} />
+          </Routes>
+          <Routes>
+            <Route path='/forgetPassword_screen' element={<ForgetPasswordScreen />} />
+          </Routes>
+          <Routes>
+            <Route path='/api/user/password/verify/:id/:token' element={<PasswordVerify />} />
           </Routes>
           <Routes>
             <Route path='/profile' element={<Profile />} />

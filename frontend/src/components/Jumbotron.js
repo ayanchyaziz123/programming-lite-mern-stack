@@ -13,7 +13,7 @@ const Jumbotron = () =>{
                     <CardMedia
                         component="img"
                         height="140"
-                        image="https://media-exp1.licdn.com/dms/image/C5612AQEE81jISPXKqQ/article-cover_image-shrink_600_2000/0/1520199296951?e=2147483647&v=beta&t=bVMZHSIwar7RY07s0SaSD9m4gBhpTeQf_SFZHONcChc"
+                        image="https://img.freepik.com/free-photo/workplace-with-smartphone-laptop-black-table-top-view-copyspace-background_144627-24860.jpg?w=2000"
                         alt="green iguana"
                         sx={{ height: 350 }}
                     />

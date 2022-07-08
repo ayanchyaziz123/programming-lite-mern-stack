@@ -116,6 +116,12 @@ export default function PrimarySearchAppBar(props) {
         navigate("/signUp_screen");
         handleMenuClose(); 
     }
+    const handle_logOut = (event)=>{
+        window.location.reload(false);
+        localStorage.removeItem('user_info')
+        navigate("/");
+        handleMenuClose();
+    }
     const profile = (event) =>{
         navigate("/profile");
         handleMenuClose();
@@ -149,7 +155,7 @@ export default function PrimarySearchAppBar(props) {
                 </>
                 :<>
                 <MenuItem onClick={profile}>profile</MenuItem>
-                        <MenuItem onClick={signUp_screen}>log_out</MenuItem>
+                        <MenuItem onClick={handle_logOut}>log_out</MenuItem>
                 </>
                     
             }
@@ -278,7 +284,7 @@ export default function PrimarySearchAppBar(props) {
                                         color="inherit"
                                     >
                                         <AccountBoxIcon />
-                                        <span>hii {user.firstName}</span>
+                                        <span>{user.firstName}</span>
                                     </IconButton>
                             </>: <>
                                     <IconButton

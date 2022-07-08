@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const connectDatabase = async () => {
-    var mongoDB = 'mongodb+srv://user123:user123@mini-mern-tut.sow4r.mongodb.net/blog?retryWrites=true&w=majority';
+    var mongoDB = process.env.DB;
     try {
         await mongoose.connect(mongoDB, {
             useNewUrlParser: true,
@@ -13,9 +13,6 @@ const connectDatabase = async () => {
         console.error("MongoDB connection FAIL");
         process.exit(1);
     }
-
-
-
 }
 
 module.exports = connectDatabase;
