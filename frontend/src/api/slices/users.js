@@ -9,7 +9,6 @@ const initialState = {
 
 
 
-
 export const SignUp = createAsyncThunk(
     "users/SignUp",
     async (user, { rejectWithValue }) => {
@@ -49,21 +48,10 @@ export const SignIn = createAsyncThunk(
     }
 );
 
-export const LogOut = createAsyncThunk(
-    "user/LogOut",
-    async(id, {rejectWithValue}) =>{
-        try{
-            const res = await UserService.Log_out(id);
-            return res.data;
-        }catch(err){
-        if(!err.response)
-        {
-            throw err
-        }
-        return rejectWithValue(err.response.data);
-    }
-}
-)
+export const logout = createAsyncThunk("auth/logout", async () => {
+    console.log("Hello world");
+    await UserService.logout();
+});
 
 
 
@@ -72,6 +60,10 @@ const UserSlice = createSlice({
     name: "user",
     initialState,
     extraReducers: {
+
+        [logout.fulfilled]: (state, action) => {
+            state.user_info =  null;
+          },
 
         [SignUp.pending]: (state, action) => {
             state.status = "loading";
@@ -106,21 +98,21 @@ const UserSlice = createSlice({
 
         // user log out
 
-        [LogOut.pending]: (state, action) => {
-            state.status = "loading";
-            state.message = [];
-        },
-        [LogOut.fulfilled]: (state, action) => {
-            console.log("action1", action.payload.msg);
-            state.message = action.payload.message;
-            state.user_info = action.payload.user_info;
-            state.status = null;
-        },
-        [LogOut.rejected]: (state, action) => {
-            state.status = "failed";
-            console.log("action2 ", action.payload.error);
-            state.message = action.payload.error;
-        },
+        // [LogOut.pending]: (state, action) => {
+        //     state.status = "loading";
+        //     state.message = [];
+        // },
+        // [LogOut.fulfilled]: (state, action) => {
+        //     console.log("action1", action.payload.msg);
+        //     state.message = action.payload.message;
+        //     state.user_info = action.payload.user_info;
+        //     state.status = null;
+        // },
+        // [LogOut.rejected]: (state, action) => {
+        //     state.status = "failed";
+        //     console.log("action2 ", action.payload.error);
+        //     state.message = action.payload.error;
+        // },
 
 
 

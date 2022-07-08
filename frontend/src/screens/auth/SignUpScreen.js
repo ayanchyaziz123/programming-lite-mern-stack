@@ -56,6 +56,13 @@ const SignUpScreen = () => {
 
     };
 
+    React.useEffect(() => {
+        const check = localStorage.getItem('user_info') 
+        if (check) {
+            navigate('/');
+        }
+    }, [])
+
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -153,7 +160,7 @@ const SignUpScreen = () => {
                                 <Link  variant="body2" component="button"
                                  onClick={
                                     ()=>{
-                                    navigate('/signIn_screen/')
+                                    navigate('/signIn_screen')
                                     }
                                  }
                                  >

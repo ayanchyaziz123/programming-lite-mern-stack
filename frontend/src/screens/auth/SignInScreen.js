@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,6 +16,8 @@ import { SignIn } from '../../api/slices/users';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+
+
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -32,9 +34,10 @@ function Copyright(props) {
 const theme = createTheme();
 
 const SignInScreen = () => {
-   
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+
 
     const { message, status, user_info } = useSelector(state => state.users);
 
@@ -44,22 +47,25 @@ const SignInScreen = () => {
         console.log({
             email: data.get('email'),
             password: data.get('password'),
-            
+
         });
-        const user = { email: data.get('email'), password: data.get('password')}
+        const user = { email: data.get('email'), password: data.get('password') }
         dispatch(SignIn({ user: user }));
 
     };
-    useEffect(() => {
-        if(user_info)
-        {
-            localStorage.setItem('user_info', JSON.stringify(user_info));
-            navigate("/");
-        }
-        
-    }, [user_info])
+    if (user_info) {
+        localStorage.setItem('user_info', JSON.stringify(user_info));
+        navigate('/');
+    }
 
+    useEffect(() => {
+        const check = localStorage.getItem('user_info') 
+        if (check) {
+            navigate('/');
+        }
+    }, [user_info])
     return (
+
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
@@ -80,7 +86,7 @@ const SignInScreen = () => {
                     <Typography component="p" variant="p">
                         {status == "loading" ? <p>Loading..</p> : status == "failed" ? message : message}
                     </Typography>
-        
+
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
@@ -100,9 +106,9 @@ const SignInScreen = () => {
                             label="Password"
                             type="password"
                             id="password"
-                           
+
                         />
-                        
+
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
@@ -117,27 +123,27 @@ const SignInScreen = () => {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                
-                                
-                                <Link  variant="body2" component="button"
-                                 onClick={
-                                    ()=>{
-                                    navigate('/forgetPassword_screen')
+
+
+                                <Link variant="body2" component="button"
+                                    onClick={
+                                        () => {
+                                            navigate('/forgetPassword_screen')
+                                        }
                                     }
-                                 }
-                                 >
+                                >
                                     Forgot password
                                 </Link>
-                               
+
                             </Grid>
                             <Grid item>
-                                <Link  variant="body2" component="button"
-                                 onClick={
-                                    ()=>{
-                                    navigate('/signUp_screen')
+                                <Link variant="body2" component="button"
+                                    onClick={
+                                        () => {
+                                            navigate('/signUp_screen')
+                                        }
                                     }
-                                 }
-                                 >
+                                >
                                     Don't have an account? Sign Up
                                 </Link>
                             </Grid>

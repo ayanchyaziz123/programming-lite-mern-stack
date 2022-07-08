@@ -8,15 +8,17 @@ const SignUp_verification = ({id, token}) =>{
 const sign_up = (user) => {
     return http.post("/signUp", user);
 };
-const log_out = (id) =>{
-    return http.get(`/logOut/${id}`);
-}
+
+const logout = () => {
+    localStorage.removeItem("user_info");
+};
 
 
 
 const UserService = {
     sign_in,
     sign_up,
-    SignUp_verification
+    SignUp_verification,
+    logout
 };
 export default UserService;

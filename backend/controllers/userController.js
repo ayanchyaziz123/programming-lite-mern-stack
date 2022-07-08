@@ -27,9 +27,9 @@ exports.SignUp = async (req, res, next) => {
             return res.status(400).json({ error: "Not all fields have been entered." });
         }
         const existingUser = await User.findOne({ email: email });
-        if (existingUser) {
-            res.status(400).send({ error: 'This email address is already being used' })
-        }
+        // if (existingUser) {
+        //     res.status(400).send({ error: 'This email address is already being used' })
+        // }
 
 
         const salt = await bcrypt.genSalt();

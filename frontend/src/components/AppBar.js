@@ -21,6 +21,9 @@ import InfoIcon from '@mui/icons-material/Info';
 import { Link} from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import { useLocation } from 'react-router-dom';
+import { logout } from '../api/slices/users';
+import { useDispatch } from 'react-redux';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -65,7 +68,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar(props) {
 
-   
+    const location = useLocation();
+    const dispatch = useDispatch();
     const user = localStorage.getItem('user_info') ?
         JSON.parse(localStorage.getItem('user_info')) : null
     
@@ -117,13 +121,16 @@ export default function PrimarySearchAppBar(props) {
         handleMenuClose(); 
     }
     const handle_logOut = (event)=>{
-        window.location.reload(false);
-        localStorage.removeItem('user_info')
-        navigate("/");
+        dispatch(logout())
+        navigate(location.pathname);
         handleMenuClose();
     }
     const profile = (event) =>{
         navigate("/profile");
+        handleMenuClose();
+    }
+    const home = (event) =>{
+        navigate("/");
         handleMenuClose();
     }
 
@@ -145,8 +152,7 @@ export default function PrimarySearchAppBar(props) {
             onClose={handleMenuClose}
         >
             
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-            <MenuItem onClick={work}>Post</MenuItem>
+            <MenuItem onClick={work}>post</MenuItem>
             {
                 !user ? 
                 <>
@@ -155,7 +161,7 @@ export default function PrimarySearchAppBar(props) {
                 </>
                 :<>
                 <MenuItem onClick={profile}>profile</MenuItem>
-                        <MenuItem onClick={handle_logOut}>log_out</MenuItem>
+                        <MenuItem onClick={handle_logOut}>log out</MenuItem>
                 </>
                     
             }
@@ -180,7 +186,7 @@ export default function PrimarySearchAppBar(props) {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem>
+            <MenuItem onClick={home}>
 
 
                 <IconButton size="large" aria-label="show 4 new mails" color="inherit">
@@ -190,7 +196,7 @@ export default function PrimarySearchAppBar(props) {
                 </IconButton>
                 <p>Home</p>
             </MenuItem>
-            <MenuItem>
+            {/* <MenuItem>
             
             
                 <IconButton size="large" aria-label="show 4 new mails" color="inherit">
@@ -211,7 +217,7 @@ export default function PrimarySearchAppBar(props) {
                     </Badge>
                 </IconButton>
                 <p>About Me</p>
-            </MenuItem>
+            </MenuItem> */}
             
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
