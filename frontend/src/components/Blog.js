@@ -31,7 +31,7 @@ const Blog = ({ blog}) => {
   let theme = localStorage.getItem("theme");
     return(
           <Grid item xs={12} md={12}>
-                <CardActionArea component={Link} to={`/blogDetailScreen/${blog._id}`}>
+                {/* <CardActionArea > */}
           <Card sx={{ display: 'flex', mb: '17px' }}>
           <CardContent sx={{ flex: 1 }}>
             <Typography component="h2" variant="h5">
@@ -44,7 +44,8 @@ const Blog = ({ blog}) => {
                                 {`${blog.description.substring(0, 150)}...`}
             </Typography>
                             <Typography variant="subtitle1">
-              Continue reading...
+                            <Button variant="contained" color="secondary" size="small" component={Link} to={`/blogDetailScreen/${blog._id}`}>More...</Button>                
+              
             </Typography>
           </CardContent>
           <CardMedia
@@ -54,7 +55,7 @@ const Blog = ({ blog}) => {
             alt={blog.imageLabel}
           />
         </Card>
-      </CardActionArea>
+      {/* </CardActionArea> */}
     </Grid>
     )
 }

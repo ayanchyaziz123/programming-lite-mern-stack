@@ -79,7 +79,7 @@ const BlogAddScreen = () =>{
             <Grid container spacing={2}>
                 <Grid item xs={4}>
                     <Box>
-                            <TextField fullWidth id="filled-basic"  className="text-color-dark" label="Category" variant="outlined" size="small" name="category" onChange={(e)=>{setCategory(e.target.value)}}/>
+                            <TextField  fullWidth id="filled-basic"  className="text-color-dark" label="Category" variant="outlined" size="small" name="category" onChange={(e)=>{setCategory(e.target.value)}}/>
                         </Box>
                         <Box sx={{mt:2}}>
                             <TextField fullWidth id="filled-basic" label="Title" variant="outlined" size="small" name="title" onChange={(e)=>{setTitle(e.target.value)}}/>
@@ -118,7 +118,7 @@ const BlogAddScreen = () =>{
                 </Grid>
                    
             </Grid>
-                <Button type="submit" variant="contained" color="primary" style={{ margin: '10px 0 10px 0' }}>
+                <Button size="small" type="submit" variant="contained" color="secondary" style={{ margin: '10px 0 10px 0' }}>
                 Save
             </Button>
             </form>

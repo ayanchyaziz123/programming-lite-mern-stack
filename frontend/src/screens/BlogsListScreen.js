@@ -62,7 +62,7 @@ const BlogsListScreen = () => {
 
     return (
         <Container>
-            <Button component={Link} to="/blogAddScreen" variant="contained" color="primary" style={{ margin: '10px 0 10px 0' }}>
+            <Button component={Link} to="/blogAddScreen" variant="contained" color="secondary" size="small" style={{ margin: '10px 0 10px 0' }}>
                 Add A Post
             </Button>
             {status == 'loading' ? <Loaders /> : status == 'failed' ? <h2>{message}</h2> :
@@ -98,6 +98,7 @@ const BlogsListScreen = () => {
                     </Table>
                 </TableContainer>
             }
+            <hr></hr>
             <Pagination pages={pages} page={page} keyword={keyword} isAdmin={isAdmin}/>  
         </Container>
     );

@@ -89,6 +89,7 @@ const SignInScreen = () => {
 
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
+                            size="small"
                             margin="normal"
                             required
                             fullWidth
@@ -99,6 +100,7 @@ const SignInScreen = () => {
                             autoFocus
                         />
                         <TextField
+                           size="small"
                             margin="normal"
                             required
                             fullWidth
@@ -114,10 +116,12 @@ const SignInScreen = () => {
                             label="Remember me"
                         />
                         <Button
+                            size="small"
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            color="secondary"
                         >
                             Sign In
                         </Button>
@@ -153,6 +157,7 @@ const SignInScreen = () => {
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
         </ThemeProvider>
+        
     );
 }
 export default SignInScreen;

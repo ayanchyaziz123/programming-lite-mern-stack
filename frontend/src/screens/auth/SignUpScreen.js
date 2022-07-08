@@ -88,6 +88,7 @@ const SignUpScreen = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
+                                   size="small"
                                     autoComplete="given-name"
                                     name="firstName"
                                     required
@@ -99,6 +100,7 @@ const SignUpScreen = () => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
+                                    size="small"
                                     required
                                     fullWidth
                                     id="lastName"
@@ -109,6 +111,7 @@ const SignUpScreen = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
+                                    size="small"
                                     required
                                     fullWidth
                                     id="email"
@@ -119,6 +122,7 @@ const SignUpScreen = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
+                                    size="small"
                                     required
                                     fullWidth
                                     name="password"
@@ -130,6 +134,7 @@ const SignUpScreen = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
+                                    size="small"
                                     required
                                     fullWidth
                                     name="password2"
@@ -147,10 +152,12 @@ const SignUpScreen = () => {
                             </Grid>
                         </Grid>
                         <Button
+                            size="small"
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            color="secondary"
                         >
                             Sign Up
                         </Button>
