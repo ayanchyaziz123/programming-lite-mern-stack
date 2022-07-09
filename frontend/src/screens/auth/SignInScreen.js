@@ -42,7 +42,7 @@ const SignInScreen = (props) => {
 
 
     const { message, status, user_info } = useSelector(state => state.users);
-    const redirect = location.state;
+    const redirect = location ? location.state : null;
     localStorage.setItem('redirect', JSON.stringify(redirect));
 
     const handleSubmit = (event) => {
@@ -62,7 +62,8 @@ const SignInScreen = (props) => {
         // const previous = localStorage.getItem('redirect');
         // // localStorage.removeItem('redirect')
         // // alert("hello");
-        navigate(redirect);
+        console.log("red", redirect);
+        navigate(redirect ? redirect : '/');
     }
 
     useEffect(() => {

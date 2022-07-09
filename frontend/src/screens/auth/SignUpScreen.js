@@ -35,6 +35,7 @@ const SignUpScreen = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const check = localStorage.getItem('user_info') 
 
     const { message, status } = useSelector(state => state.users);
 
@@ -57,11 +58,10 @@ const SignUpScreen = () => {
     };
 
     React.useEffect(() => {
-        const check = localStorage.getItem('user_info') 
         if (check) {
             navigate('/');
         }
-    }, [])
+    }, [check])
 
     return (
         <ThemeProvider theme={theme}>
