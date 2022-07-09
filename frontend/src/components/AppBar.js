@@ -18,12 +18,16 @@ import HomeIcon from '@mui/icons-material/Home';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Container from '@mui/material/Container';
 import InfoIcon from '@mui/icons-material/Info';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { useLocation } from 'react-router-dom';
 import { logout } from '../api/slices/users';
 import { useDispatch } from 'react-redux';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -72,21 +76,20 @@ export default function PrimarySearchAppBar(props) {
     const dispatch = useDispatch();
     const user = localStorage.getItem('user_info') ?
         JSON.parse(localStorage.getItem('user_info')) : null
-    
+
 
     const navigate = useNavigate();
     const [keyword, setKeyword] = React.useState('')
-    
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-   
-    const searchHandler = (e) =>{
-        if(e.key === "Enter")
-        {
+
+    const searchHandler = (e) => {
+        if (e.key === "Enter") {
             navigate(`/?keyword=${keyword}&page=1`);
         }
 
@@ -108,31 +111,31 @@ export default function PrimarySearchAppBar(props) {
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
-    const work = (event) =>{
+    const work = (event) => {
         navigate("/blogsListScreen");
-        handleMenuClose();   
+        handleMenuClose();
     }
-    const logIn = (event) =>{
+    const logIn = (event) => {
         const des = window.location.pathname;
         console.log("des ", des);
-        navigate("/signIn_screen", { state:  des});
+        navigate("/signIn_screen", { state: des });
         // navigate("/signIn_screen");
-        handleMenuClose();  
+        handleMenuClose();
     }
-    const signUp_screen = (event)=>{
+    const signUp_screen = (event) => {
         navigate("/signUp_screen");
-        handleMenuClose(); 
+        handleMenuClose();
     }
-    const handle_logOut = (event)=>{
+    const handle_logOut = (event) => {
         dispatch(logout())
         navigate(location.pathname);
         handleMenuClose();
     }
-    const profile = (event) =>{
+    const profile = (event) => {
         navigate("/profile");
         handleMenuClose();
     }
-    const home = (event) =>{
+    const home = (event) => {
         navigate("/");
         handleMenuClose();
     }
@@ -154,21 +157,43 @@ export default function PrimarySearchAppBar(props) {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            
-            <MenuItem onClick={work}>post</MenuItem>
+
+
             {
-                !user ? 
-                <>
+                !user ?
+                    <>
                         <MenuItem onClick={logIn}>LogIn</MenuItem>
                         <MenuItem onClick={signUp_screen}>signUp_screen</MenuItem>
-                </>
-                :<>
-                <MenuItem onClick={profile}>profile</MenuItem>
-                        <MenuItem onClick={handle_logOut}>log out</MenuItem>
-                </>
-                    
+                    </>
+                    : <>
+                         <MenuItem onClick={profile}>
+                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                <Badge color="error">
+                                    <AccountBoxIcon />
+                                </Badge>
+                            </IconButton>
+                            <p>profile</p>
+                        </MenuItem>
+                        <MenuItem onClick={work}>
+                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                <Badge color="error">
+                                    <LocalPostOfficeIcon />
+                                </Badge>
+                            </IconButton>
+                            <p>post</p>
+                        </MenuItem>
+                        <MenuItem onClick={handle_logOut}>
+                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                <Badge color="error">
+                                    <LogoutIcon />
+                                </Badge>
+                            </IconButton>
+                            <p>log out</p>
+                        </MenuItem>
+                    </>
+
             }
-            
+
         </Menu>
     );
 
@@ -189,11 +214,12 @@ export default function PrimarySearchAppBar(props) {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
+
             <MenuItem onClick={home}>
 
 
                 <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                    <Badge  color="error">
+                    <Badge color="error">
                         <HomeIcon />
                     </Badge>
                 </IconButton>
@@ -221,8 +247,8 @@ export default function PrimarySearchAppBar(props) {
                 </IconButton>
                 <p>About Me</p>
             </MenuItem> */}
-            
-            <MenuItem onClick={handleProfileMenuOpen}>
+
+            {/* <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
                     size="large"
                     aria-label="account of current user"
@@ -232,57 +258,107 @@ export default function PrimarySearchAppBar(props) {
                 >
                     <AccountCircle />
                 </IconButton>
-                <p>Profile</p>
-            </MenuItem>
+                <p>Authentication</p>
+            </MenuItem> */}
+            {
+                !user ?
+                    <>
+                        <MenuItem onClick={logIn}>
+                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                <Badge color="error">
+                                    <LoginIcon />
+
+                                </Badge>
+                            </IconButton>
+                            <p>sign in</p>
+                        </MenuItem>
+                        <MenuItem onClick={signUp_screen}>
+                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                <Badge color="error">
+                                    <AccountBalanceWalletIcon />
+                                </Badge>
+                            </IconButton>
+                            <p>join now</p>
+                        </MenuItem>
+                    </>
+                    : <>
+                        <MenuItem onClick={profile}>
+                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                <Badge color="error">
+                                    <AccountBoxIcon />
+                                </Badge>
+                            </IconButton>
+                            <p>profile</p>
+                        </MenuItem>
+                        <MenuItem onClick={work}>
+                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                <Badge color="error">
+                                    <LocalPostOfficeIcon />
+                                </Badge>
+                            </IconButton>
+                            <p>post</p>
+                        </MenuItem>
+                        <MenuItem onClick={handle_logOut}>
+                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                <Badge color="error">
+                                    <LogoutIcon />
+                                </Badge>
+                            </IconButton>
+                            <p>log out</p>
+                        </MenuItem>
+                    </>
+
+            }
         </Menu>
     );
-    
+
 
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" color="inherit">
                 <Container>
-                <Toolbar>
-                    
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ display: { xs: 'none', sm: 'block', color: 'inherit', textDecoration: 'none'} }}
-                        component={Link} to="/"
-                    >
-                        ProgrammingLite
-                           
-                    </Typography>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…."
-                            inputProps={{ 'aria-label': 'search' }}
-                            onChange={(e) => setKeyword(e.target.value)}
-                            onKeyPress={searchHandler}
-                        />
-                    </Search>
-                    
-                    <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <Toolbar>
+
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+                            sx={{ display: { xs: 'none', sm: 'block', color: 'inherit', textDecoration: 'none' } }}
+                            component={Link} to="/"
+                        >
+                            ProgrammingLite
+
+                        </Typography>
+                        <Search>
+                            <SearchIconWrapper>
+                                <SearchIcon />
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Search…."
+                                inputProps={{ 'aria-label': 'search' }}
+                                onChange={(e) => setKeyword(e.target.value)}
+                                onKeyPress={searchHandler}
+                            />
+                        </Search>
+
+                        <Box sx={{ flexGrow: 1 }} />
+                        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            {/* for theme */}
                             {props.display}
-                      
+
                             <IconButton size="small" aria-label="show 4 new mails" color="inherit" sx={{ mr: 1 }} component={Link} to="/">
                                 <Badge >
                                     <HomeIcon />
 
                                 </Badge>
                                 <span>home</span>
-                                
+
                             </IconButton>
 
 
 
-                        {
-                            user ? <>
+                            {
+                                user ? <>
                                     <IconButton
                                         size="small"
                                         edge="end"
@@ -295,57 +371,59 @@ export default function PrimarySearchAppBar(props) {
                                         <AccountBoxIcon />
                                         <span>{user.firstName}</span>
                                     </IconButton>
-                            </>: <>
+                                </> : <>
                                     <IconButton
                                         size="small"
                                         edge="end"
                                         aria-label="account of current user"
                                         aria-controls={menuId}
                                         aria-haspopup="true"
-                                            onClick={logIn}
+                                        onClick={logIn}
                                         color="inherit"
                                     >
                                         <AccountBoxIcon />
                                         <span>sign in</span>
                                     </IconButton>
                                     <IconButton
-                                size="small"
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls={menuId}
+                                        size="small"
+                                        edge="end"
+                                        aria-label="account of current user"
+                                        aria-controls={menuId}
+                                        aria-haspopup="true"
+                                        onClick={signUp_screen}
+                                        color="inherit"
+                                    >
+                                        <AccountBalanceWalletIcon />
+                                        <span>join now</span>
+                                    </IconButton>
+                                </>
+
+                            }
+
+
+
+                        </Box>
+                        <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                            {/* for theme */}
+                            {props.display}
+                            <IconButton
+                                size="large"
+                                aria-label="show more"
+                                aria-controls={mobileMenuId}
                                 aria-haspopup="true"
-                                onClick={signUp_screen}
+                                onClick={handleMobileMenuOpen}
                                 color="inherit"
                             >
-                                <AccountBalanceWalletIcon />
-                                <span>join now</span>
+                                <MoreIcon />
                             </IconButton>
-                                    </>
-                                    
-                        }    
-                        
-                        
-                            
-                    </Box>
-                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon />
-                        </IconButton>
-                    </Box>
-                </Toolbar>
+                        </Box>
+                    </Toolbar>
                 </Container>
             </AppBar>
-             
+
             {renderMobileMenu}
             {renderMenu}
-           
+
         </Box>
     );
 }
