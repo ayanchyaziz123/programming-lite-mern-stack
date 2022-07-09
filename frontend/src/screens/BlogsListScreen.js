@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Loaders from '../components/Loaders';
 import Pagination from '../components/Pagination';
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
     retrieveBlogs,
@@ -23,7 +23,7 @@ const baseURL = `http://localhost:4000/api/blog/blogs`;
 
 
 
-const BlogsListScreen = () => {
+const BlogsListScreen = (props) => {
     const [postDatas, setPostDatas] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(false);
@@ -32,14 +32,20 @@ const BlogsListScreen = () => {
 
 
     const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
     const { blogs, message, status, page, pages } = useSelector(state => state.blogs);
+    const redirect = location.state;
+    const check = JSON.parse(localStorage.getItem('user_info'));
 
 
     
-
     React.useEffect(() => {
+        if (!check.isAdmin) {
+            navigate(redirect ? redirect : '/');
+        }
          dispatch(retrieveBlogs(keyword));
-    }, [dispatch, keyword])
+    }, [redirect, dispatch, keyword, check])
 
     const deletePost = (id) => {
         var proceed = window.confirm("Are you sure you want to delete?");

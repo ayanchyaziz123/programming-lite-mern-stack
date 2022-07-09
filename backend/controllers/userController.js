@@ -102,6 +102,7 @@ exports.SignUp_verification = async (req, res, next) => {
             lastName: user.lastName,
             userId: user._id,
             email: user.email,
+            isAdmin: user.isAdmin,
             access_token: tkn
         }
         return res.status(200).json({
@@ -224,6 +225,7 @@ exports.UpdatePassword = async (req, res, next) => {
             lastName: user.lastName,
             userId: user._id,
             email: user.email,
+            isAdmin: user.isAdmin,
             access_token: tkn
         }
         res.status(200).json({
@@ -258,6 +260,7 @@ exports.SignIn = async (req, res, next) => {
         lastName: existingUser.lastName,
         userId: existingUser._id,
         email: existingUser.email,
+        isAdmin: existingUser.isAdmin,
         access_token: token
     }
     res.status(200).json({

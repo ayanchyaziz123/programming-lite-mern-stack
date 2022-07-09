@@ -174,7 +174,9 @@ export default function PrimarySearchAppBar(props) {
                             </IconButton>
                             <p>profile</p>
                         </MenuItem>
-                        <MenuItem onClick={work}>
+                        {
+                            user.isAdmin ? <>
+                            <MenuItem onClick={work}>
                             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                                 <Badge color="error">
                                     <LocalPostOfficeIcon />
@@ -182,6 +184,9 @@ export default function PrimarySearchAppBar(props) {
                             </IconButton>
                             <p>post</p>
                         </MenuItem>
+
+                            </> : null
+                        }
                         <MenuItem onClick={handle_logOut}>
                             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                                 <Badge color="error">
@@ -290,7 +295,9 @@ export default function PrimarySearchAppBar(props) {
                             </IconButton>
                             <p>profile</p>
                         </MenuItem>
-                        <MenuItem onClick={work}>
+                        {
+                            user.isAdmin ? <>
+                            <MenuItem onClick={work}>
                             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                                 <Badge color="error">
                                     <LocalPostOfficeIcon />
@@ -298,6 +305,9 @@ export default function PrimarySearchAppBar(props) {
                             </IconButton>
                             <p>post</p>
                         </MenuItem>
+                            </> :
+                            null
+                        }
                         <MenuItem onClick={handle_logOut}>
                             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                                 <Badge color="error">
