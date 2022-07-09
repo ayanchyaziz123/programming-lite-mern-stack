@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import store from './api/store';
 import { Provider } from 'react-redux';
 import HomeScreen from './screens/HomeScreen';
@@ -36,7 +36,6 @@ const lightTheme = createTheme({
     palette: {
       mode: 'light',
     },
-
 });
 
 
@@ -75,9 +74,11 @@ const  App = () => {
 
   const display = (
     <FormGroup>
-      <FormControlLabel control={<Switch/>} label={darkMode ? 'dark' : 'light'} onClick={set} />
+      <FormControlLabel control={<Switch checked={darkMode ? false : true} color="secondary"/>} label={darkMode ? 'dark' : 'light'} onClick={set} />
     </FormGroup>
   );
+
+  
   
   return (
     <Provider store={store}>

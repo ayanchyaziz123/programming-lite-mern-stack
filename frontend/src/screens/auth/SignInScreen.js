@@ -14,7 +14,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { SignIn } from '../../api/slices/users';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 
 
 
@@ -33,13 +34,16 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-const SignInScreen = () => {
+const SignInScreen = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
 
 
 
     const { message, status, user_info } = useSelector(state => state.users);
+    const redirect = location.state;
+    localStorage.setItem('redirect', JSON.stringify(redirect));
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -55,15 +59,18 @@ const SignInScreen = () => {
     };
     if (user_info) {
         localStorage.setItem('user_info', JSON.stringify(user_info));
-        navigate('/');
+        // const previous = localStorage.getItem('redirect');
+        // // localStorage.removeItem('redirect')
+        // // alert("hello");
+        navigate(redirect);
     }
 
     useEffect(() => {
         const check = localStorage.getItem('user_info') 
         if (check) {
-            navigate('/');
+            navigate(redirect ? redirect : '/');
         }
-    }, [user_info])
+    }, [user_info, redirect])
     return (
 
         <ThemeProvider theme={theme}>

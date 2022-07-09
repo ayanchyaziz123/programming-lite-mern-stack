@@ -113,7 +113,10 @@ export default function PrimarySearchAppBar(props) {
         handleMenuClose();   
     }
     const logIn = (event) =>{
-        navigate("/signIn_screen");
+        const des = window.location.pathname;
+        console.log("des ", des);
+        navigate("/signIn_screen", { state:  des});
+        // navigate("/signIn_screen");
         handleMenuClose();  
     }
     const signUp_screen = (event)=>{
