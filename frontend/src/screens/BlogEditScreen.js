@@ -66,7 +66,6 @@ const BlogEditScreen = ({ match, history }) => {
             setContent(blog.content);
             setBlogId(blog._id);
         }
-    console.log("Bloghhhh : ", blog);
     }, [initFetch, blog, id])
     
 

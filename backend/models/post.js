@@ -31,7 +31,10 @@ const postsSchema = new mongoose.Schema({
     image:{
         type: String
     },
-
+    comment: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'comment'
+      }],
     update_at: {
         type: Date,
         default: new Date()

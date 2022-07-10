@@ -49,7 +49,7 @@ export const SignIn = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk("auth/logout", async () => {
-    console.log("Hello world");
+    
     await UserService.logout();
 });
 

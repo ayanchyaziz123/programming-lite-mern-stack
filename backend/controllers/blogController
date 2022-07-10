@@ -20,6 +20,9 @@ const checkLogIn = require('../middleware/checkLogin');
 
 
 // categories here
+
+
+
 exports.categories = async (req, res, next) => {
    
     try {

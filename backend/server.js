@@ -29,6 +29,7 @@ connectDatabase();
 app.use(cors({ origin: true, credentials: true }));
 const blogs = require('./routes/blogRoute');
 const users = require('./routes/userRoute');
+const comments = require('./routes/commentRoute');
 
 
 
@@ -36,6 +37,8 @@ const users = require('./routes/userRoute');
 
 // API for blogs
 app.use('/api/blog', blogs);
+// COmments
+app.use('/api/comment', comments);
 
 // API for files
 app.use('/api/file', blogs);
@@ -50,8 +53,6 @@ app.get('/', (req, res) => {
 
 
 // test 
-
-
   
 //   // Single File Route Handler
 //   app.post("/single", upload.single("image"), (req, res) => {
@@ -64,7 +65,6 @@ app.get('/', (req, res) => {
 //     console.log(req.files);
 //     res.send("Multiple Files Upload Success");
 //   });
-
 app.listen(process.env.PORT, () => {
     console.log(`Example app->> listening at http://localhost:${process.env.PORT}`)
 })
