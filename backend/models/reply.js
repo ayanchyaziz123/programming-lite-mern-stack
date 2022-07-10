@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const commentSchema = new mongoose.Schema({
+const replySchema = new mongoose.Schema({
     text: {
         type: String,
         trim: true,
@@ -11,19 +11,15 @@ const commentSchema = new mongoose.Schema({
         default: Date.now
     },
     // each comment can only relates to one blog, so it's not in array
-    post: {
+    comment: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'post'
+        ref: 'comment'
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true,
-    },
-    reply: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'reply'
-      }],
+    }
 })
 
-module.exports = mongoose.model('comment', commentSchema);
+module.exports = mongoose.model('reply', replySchema);

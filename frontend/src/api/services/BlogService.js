@@ -1,5 +1,6 @@
 import http from "../http-common";
 import http3 from "../http-3";
+import http4 from "../http-4";
 
 const fetchCategories = () =>{
     return http.get(`blogs/categories`);
@@ -12,6 +13,12 @@ const get = id => {
 };
 const create = ( blog ) => {
     return http3.post("/new", blog);
+};
+const createComment = (data) =>{
+    return http4.post("/createComment", data);
+};
+const createReply = (data) =>{
+    return http4.post("/createReply", data);
 };
 const update = ({ id, blog}) => {
     return http.put(`/blogUpdate/${id}`, blog);
@@ -38,6 +45,8 @@ const TutorialService = {
     removeAll,
     findByTitle,
     findById,
-    fetchCategories
+    fetchCategories,
+    createComment,
+    createReply
 };
 export default TutorialService;

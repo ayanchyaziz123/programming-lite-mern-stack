@@ -1,5 +1,6 @@
 const { request, query } = require('express');
 const Post = require('../models/post');
+const Comment = require('../models/comment');
 const checkLogIn = require('../middleware/checkLogin');
 
 
@@ -24,7 +25,7 @@ const checkLogIn = require('../middleware/checkLogin');
 
 
 exports.categories = async (req, res, next) => {
-   
+
     try {
         const categories = await Post.find();
         const cats = categories ? categories.reduce((catMemo, { category, title, _id }) => {
@@ -67,7 +68,7 @@ exports.createBlog = async (req, res, next) => {
             description: req.body.description,
             author: req.body.author,
             content: req.body.content,
-            image: req.file.filename 
+            image: req.file.filename
         })
         post.save();
         res.status(201).json({
@@ -91,8 +92,7 @@ exports.getAllBlogs = async (request, response, next) => {
     let k = request.query.keyword;
     let p = request.query.page;
     try {
-        if(k == undefined && p == undefined)
-        {
+        if (k == undefined && p == undefined) {
             const page = 1;
             const limit = 5;
             const total = await Post.countDocuments();
@@ -100,19 +100,18 @@ exports.getAllBlogs = async (request, response, next) => {
             const startIndex = (page - 1) * limit;
             const posts = await Post.find().sort({ 'update_at': -1 }).limit(limit).skip(startIndex);
             response.status(200).json(
-            {
-                success: true,
-                count: posts.length,
-                posts,
-                pages,
-                page
-            }
-        )
+                {
+                    success: true,
+                    count: posts.length,
+                    posts,
+                    pages,
+                    page
+                }
+            )
         }
-        
-        else if(k + 10 == 10)
-        {
-           
+
+        else if (k + 10 == 10) {
+
             const page = request.query.page;
             const limit = 5;
             const total = await Post.countDocuments();
@@ -129,25 +128,25 @@ exports.getAllBlogs = async (request, response, next) => {
                 }
             )
         }
-        else{
+        else {
             const page = request.query.page;
             const limit = 5;
             const startIndex = (page - 1) * limit
             let query = String(k);
             const p = await Post.find(
                 {
-                    "$or":[
-                        {title:{$regex:query}},
-                        {description:{$regex:query}}
+                    "$or": [
+                        { title: { $regex: query } },
+                        { description: { $regex: query } }
                     ]
                 }
             )
             const pages = Math.ceil(p.length / limit)
             const posts = await Post.find(
                 {
-                    "$or":[
-                        {title:{$regex:query}},
-                        {description:{$regex:query}}
+                    "$or": [
+                        { title: { $regex: query } },
+                        { description: { $regex: query } }
                     ]
                 }
             ).sort({ 'update_at': -1 }).limit(limit).skip(startIndex).exec();
@@ -178,8 +177,14 @@ exports.getBlogById = async (request, response, next) => {
     //const id = request.params.id;
     //console.log("Id ::: ", id);
     try {
-        const post = await Post.findById(_id = request.params.id);
-        response.json(post);
+        const post = await Post.findById(_id = request.params.id).populate('comment');
+        //TO DO HERE
+        const comment = await Comment.find({ post: request.params.id }).populate('user');
+
+        response.json({
+            "post": post,
+            "comment": comment
+        });
     }
     catch (error) {
         response.status(500).json({
@@ -222,18 +227,18 @@ exports.editBlogById = async (request, response, next) => {
 
 exports.updateBlog = async (request, response, next) => {
     try {
-        const id = request.params.id; 
+        const id = request.params.id;
         const get_blog = request.body;
         // console.log("Id Avatar 2 2 2 2 2 : ",id, blog);
-        const { category, title, description, tags, author, content} = get_blog;
+        const { category, title, description, tags, author, content } = get_blog;
         const blog = new Post({
             _id: id,
             category: category,
             title: title,
             description: description,
-            tags: tags, 
+            tags: tags,
             author: author,
-            content: content  
+            content: content
         });
 
         Post.updateOne({ _id: request.params.id }, blog).then(
@@ -252,7 +257,7 @@ exports.updateBlog = async (request, response, next) => {
             }
         );
 
-        
+
 
     }
     catch (error) {

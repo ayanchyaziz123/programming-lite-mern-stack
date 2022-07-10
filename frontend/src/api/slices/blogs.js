@@ -4,6 +4,8 @@ import BlogDataService from "../services/BlogService";
 const initialState =  {
     blogs: [],
     blog: [],
+    comments: [],
+    replies: [],
     categories: [],
     cat_message: [],
     message: [],
@@ -27,6 +29,24 @@ export const createBlog = createAsyncThunk(
         return res.data;
     }
 );
+
+//create comment
+export const createComment = createAsyncThunk(
+    "comment/create",
+    async (data) => {
+        const res = await BlogDataService.createComment(data);
+        return res.data;
+    }
+);
+
+export const createReply = createAsyncThunk(
+    "reply/create",
+    async (data) => {
+        const res = await BlogDataService.createReply(data);
+        return res.data;
+    }
+);
+
 export const retrieveBlogs = createAsyncThunk(
     "blogss/retrieve",
     async (keyword='') => {
@@ -78,6 +98,37 @@ const BlogSlice = createSlice({
     name: "tutorial",
     initialState,
     extraReducers: {
+
+        // create commment
+
+        [createComment.pending]: (state, action) => {
+            state.status = "loading";
+            state.comments = [];
+        },
+        [createComment.fulfilled]: (state, action) => {
+            state.status = "success";
+            state.comments = action.payload.comment;
+        },
+        [createComment.rejected]: (state, action) => {
+            state.status = "failed";
+            state.message = action.error.message;   
+        },
+        // create reply
+
+        [createReply.pending]: (state, action) => {
+            state.status = "loading";
+            state.comments = [];
+        },
+        [createReply.fulfilled]: (state, action) => {
+            state.status = "success";
+            state.replies = action.payload.reply;
+        },
+        [createReply.rejected]: (state, action) => {
+            state.status = "failed";
+            state.message = action.error.message;   
+        },
+        // create blog
+
         [createBlog.pending]: (state, action) => {
             state.status = "loading";
             state.blogs = [];
@@ -158,7 +209,8 @@ const BlogSlice = createSlice({
         },
         [findBlogById.fulfilled]: (state, action) => {
             state.status = "success";
-            state.blog = action.payload;
+            state.blog = action.payload.post;
+            state.comments = action.payload.comment;
         },
         [findBlogById.rejected]: (state, action) => {
             state.status = "failed";

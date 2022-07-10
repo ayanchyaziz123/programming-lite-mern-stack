@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const {createComment} = require('../controllers/commentController');
+const {createComment, createReply} = require('../controllers/commentController');
 
 router.route('/createComment').post(createComment)
+router.route('/createReply').post(createReply)
 
 
 
