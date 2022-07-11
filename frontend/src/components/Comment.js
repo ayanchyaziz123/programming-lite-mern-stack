@@ -47,7 +47,7 @@ const Comment = ({ comments, id }) => {
 
     return (
         <div>
-            {comments ? 
+            {comments.length > 0 ? 
                 comments.map(data => (
                     <div>
                         <Grid container direction="row">
@@ -85,7 +85,7 @@ const Comment = ({ comments, id }) => {
                                                         <Grid item>
                                                             {/* <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80" style={{ maxHeight: '50px', maxWidth: '50px' }}></img> */}
                                                             <Avatar sx={{ bgcolor: purple[500] }} aria-label="recipe">
-                                                                {`${rep.user.firstName.substring(0, 1)}`}
+                                                                {rep.user.firstName ? `${rep.user.firstName.substring(0, 1)}` : null}
                                                             </Avatar>
                                                         </Grid>
                                                         <Grid item sx={{ ml: 2 }}>
