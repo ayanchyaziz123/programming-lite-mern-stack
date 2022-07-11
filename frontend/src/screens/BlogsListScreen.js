@@ -45,7 +45,7 @@ const BlogsListScreen = (props) => {
             navigate(redirect ? redirect : '/');
         }
          dispatch(retrieveBlogs(keyword));
-    }, [redirect, dispatch, keyword, check])
+    }, [dispatch, keyword])
 
     const deletePost = (id) => {
         var proceed = window.confirm("Are you sure you want to delete?");

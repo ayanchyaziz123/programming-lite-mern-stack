@@ -8,9 +8,9 @@ const sendEmail = require('../utils/sendMail');
 // for creating user
 exports.SignUp = async (req, res, next) => {
 
+
     try {
-        const user = req.body.user;
-        const { firstName, lastName, email, password, password2 } = user;
+        const { firstName, lastName, email, password, password2 } = req.body;
         if (password != password2) {
             return res.status(400).json({ error: "Password did not match" });
         }
@@ -23,7 +23,7 @@ exports.SignUp = async (req, res, next) => {
 
         }
 
-        if (!email || !password || !firstName || !lastName) {
+        if (!email || !password || !firstName || !lastName || !req.file) {
             return res.status(400).json({ error: "Not all fields have been entered." });
         }
         const existingUser = await User.findOne({ email: email });
@@ -39,6 +39,7 @@ exports.SignUp = async (req, res, next) => {
             lastName,
             email,
             password: passwordHash,
+            profile_pic: req.file.filename
         });
         const savedUser = await newUser.save();
         const createToken = jwt.sign({
@@ -103,6 +104,7 @@ exports.SignUp_verification = async (req, res, next) => {
             userId: user._id,
             email: user.email,
             isAdmin: user.isAdmin,
+            profile_pic: existingUser.profile_pic,
             access_token: tkn
         }
         return res.status(200).json({
@@ -226,6 +228,7 @@ exports.UpdatePassword = async (req, res, next) => {
             userId: user._id,
             email: user.email,
             isAdmin: user.isAdmin,
+            profile_pic: existingUser.profile_pic,
             access_token: tkn
         }
         res.status(200).json({
@@ -261,6 +264,7 @@ exports.SignIn = async (req, res, next) => {
         userId: existingUser._id,
         email: existingUser.email,
         isAdmin: existingUser.isAdmin,
+        profile_pic: existingUser.profile_pic,
         access_token: token
     }
     res.status(200).json({

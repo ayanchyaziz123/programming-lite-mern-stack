@@ -40,6 +40,16 @@ const BlogDetailScreen = ({ match, history }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if(!text)
+        {
+            alert("You did not give any comment!!!");
+            return
+        }
+        if(!user)
+        {
+            alert("Please Login first");
+            return
+        }
         const formData = {
             "text": text,
             "post_id": post_id,
@@ -56,7 +66,7 @@ const BlogDetailScreen = ({ match, history }) => {
         if(user) setUSer_id(user.userId);
         setPost_id(id);
     }, [dispatch, id])
-    console.log("ccc", comments, blog);
+
 
 
 
@@ -91,7 +101,7 @@ const BlogDetailScreen = ({ match, history }) => {
                                 </Typography>
                             </Card>
                           
-
+                            <Card sx={{ mt: 2, p: 3, bgcolor: 'primary' }}>
                             <h4 className="text-color-dark">Comment Please</h4>
                             <form onSubmit={handleSubmit} enctype="multipart/form-data" method="post">
                                 <TextareaAutosize
@@ -103,10 +113,11 @@ const BlogDetailScreen = ({ match, history }) => {
                                     style={{ width: 500 }}
                                 />
                                 <br></br>
-                                <Button variant="contained" size="small" color="secondary">Comment</Button>
+                                <Button type="submit" variant="contained" size="small" color="secondary">Comment</Button>
                             </form>
-                            <h4>Recent comments and replies</h4>
+                            <Typography variant="h5" sx={{ mt: 4 }}>Recent comments and replies</Typography>
                             <Comment comments={comments} id={id}/>
+                            </Card>
 
                         </Grid>
 

@@ -45,15 +45,19 @@ const SignUpScreen = () => {
     const [lastName, setlastName] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
+    const [profile_pic, setProfile_pic] = useState(null);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log(data.get('firstName'))
-        const user = {
-            firstName: data.get('firstName'), lastName: data.get('lastName'), email: data.get('email'), password: data.get('password'), password2: data.get('password2')
-};
-        dispatch(SignUp({ user: user}));
+        const formData = new FormData();
+        formData.append('firstName', data.get('firstName'));
+        formData.append('lastName', data.get('lastName'))
+        formData.append('email', data.get('email'))
+        formData.append('password', data.get('password'));
+        formData.append('password2', data.get('password2'));
+        formData.append('profile_pic', profile_pic);
+        dispatch(SignUp(formData));
 
     };
 
@@ -143,6 +147,20 @@ const SignUpScreen = () => {
                                     id="password2"
                                     autoComplete="new-password"
                                 />
+                            </Grid>
+                            <Grid item xs={12}>
+                            <Box sx={{ mt: 2 }}>
+                            <TextField 
+                            fullWidth 
+                            id="filled-basic" 
+                            type="file" 
+                            variant="outlined"
+                            accept=".png, .jpg, .jpeg"
+                            name="thumbnail"
+                            size="small" 
+                            onChange={(e) => { setProfile_pic(e.target.files[0]) }} />
+                        </Box>
+
                             </Grid>
                             <Grid item xs={12}>
                                 <FormControlLabel

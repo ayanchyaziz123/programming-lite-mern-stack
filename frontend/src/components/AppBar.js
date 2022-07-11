@@ -28,6 +28,9 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
+import { Avatar } from '@mui/material';
+import { deepOrange, deepPurple } from '@mui/material/colors';
+
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -128,7 +131,8 @@ export default function PrimarySearchAppBar(props) {
     }
     const handle_logOut = (event) => {
         dispatch(logout())
-        navigate(location.pathname);
+        // navigate(location.pathname, { state: true });
+        navigate('/')
         handleMenuClose();
     }
     const profile = (event) => {
@@ -378,8 +382,8 @@ export default function PrimarySearchAppBar(props) {
                                         onClick={handleProfileMenuOpen}
                                         color="inherit"
                                     >
-                                        <AccountBoxIcon />
-                                        <span>{user.firstName}</span>
+                                        
+                                         <Avatar sx={{width: 30, height: 30, bgcolor: deepPurple[500], mr: 0.5}} alt="Remy Sharp" src={`http://localhost:4000/${user.profile_pic}`} /> <span >hii {user.firstName}</span>
                                     </IconButton>
                                 </> : <>
                                     <IconButton

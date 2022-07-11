@@ -24,10 +24,16 @@ const Comment = ({ comments, id }) => {
     const user = JSON.parse(localStorage.getItem('user_info'));
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // if (!user_info) {
-        //     alert("please log in");
-        //     return;
-        // }
+        if(!text)
+        {
+            alert("You did not give any reply!!!");
+            return
+        }
+        if(!user)
+        {
+            alert("Please Login first");
+            return
+        }
         const formData = {
             "text": text,
             "post_id": post_id,
@@ -55,8 +61,7 @@ const Comment = ({ comments, id }) => {
                         <Grid container direction="row" item>
                             <Grid item sx={{ mt: 2 }}>
                                 {/* <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80" style={{ maxHeight: '50px', maxWidth: '50px' }}></img> */}
-                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    {`${data.user.firstName.substring(0, 1)}`}
+                                <Avatar sx={{ bgcolor: red[500] }} alt="Remy Sharp" src={`http://localhost:4000/${data.user.profile_pic}`} >
                                 </Avatar>
                             </Grid>
                             <Grid item sx={{ ml: 2 }} className="text-color-dark">
@@ -77,7 +82,7 @@ const Comment = ({ comments, id }) => {
                                         style={{ width: 500 }}
                                     />
                                     <br></br>
-                                    <Button variant="contained" size="small" color="secondary">Reply</Button>
+                                    <Button type="submit" variant="contained" size="small" color="secondary">Reply</Button>
                                 </form>
                                 {
                                     data.reply ?
@@ -87,7 +92,8 @@ const Comment = ({ comments, id }) => {
                                                     <Grid container direction="row" sx={{ mt: 2 }}>
                                                         <Grid item>
                                                             {/* <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80" style={{ maxHeight: '50px', maxWidth: '50px' }}></img> */}
-                                                            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                                            <Avatar sx={{ bgcolor: red[500] }} alt="Remy Sharp" src={`http://localhost:4000/${rep.user.profile_pic}`} >
+                            
                                                                 {rep.user.firstName ? `${rep.user.firstName.substring(0, 1)}` : null}
                                                             </Avatar>
                                                         </Grid>
