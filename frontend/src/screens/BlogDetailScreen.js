@@ -17,6 +17,8 @@ import {
     findBlogById, createComment
 } from '../api/slices/blogs';
 import Comment from '../components/Comment';
+import Button from '@mui/material/Button';
+import ReactTimeAgo from 'react-time-ago';
 
 
 
@@ -97,10 +99,11 @@ const BlogDetailScreen = ({ match, history }) => {
                                     minRows={6}
                                     onChange={(event) => { setText(event.target.value) }}
                                     name="text"
-                                    placeholder="Minimum 3 rows"
+                                    placeholder="Comment here.."
                                     style={{ width: 500 }}
                                 />
-                                <button>comment</button>
+                                <br></br>
+                                <Button variant="contained" size="small" color="secondary">Comment</Button>
                             </form>
                             <h4>Recent comments and replies</h4>
                             <Comment comments={comments} id={id}/>

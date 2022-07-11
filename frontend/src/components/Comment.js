@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import { useSelector, useDispatch } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
-import { red, purple  } from '@mui/material/colors';
+import { red, purple, brown  } from '@mui/material/colors';
 import { useParams } from 'react-router-dom';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { createReply } from '../api/slices/blogs';
 import ReactTimeAgo from 'react-time-ago';
+import { Button } from '@mui/material';
+
 
 
 
@@ -50,7 +52,7 @@ const Comment = ({ comments, id }) => {
             {comments.length > 0 ? 
                 comments.map(data => (
                     <div>
-                        <Grid container direction="row">
+                        <Grid container direction="row" item>
                             <Grid item sx={{ mt: 2 }}>
                                 {/* <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80" style={{ maxHeight: '50px', maxWidth: '50px' }}></img> */}
                                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -71,10 +73,11 @@ const Comment = ({ comments, id }) => {
                                         minRows={6}
                                         onChange={handleChange(data._id)}
                                         name="text"
-                                        placeholder="Minimum 3 rows"
+                                        placeholder="Reply here.."
                                         style={{ width: 500 }}
                                     />
-                                    <button>reply</button>
+                                    <br></br>
+                                    <Button variant="contained" size="small" color="secondary">Reply</Button>
                                 </form>
                                 {
                                     data.reply ?
@@ -84,7 +87,7 @@ const Comment = ({ comments, id }) => {
                                                     <Grid container direction="row" sx={{ mt: 2 }}>
                                                         <Grid item>
                                                             {/* <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80" style={{ maxHeight: '50px', maxWidth: '50px' }}></img> */}
-                                                            <Avatar sx={{ bgcolor: purple[500] }} aria-label="recipe">
+                                                            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
                                                                 {rep.user.firstName ? `${rep.user.firstName.substring(0, 1)}` : null}
                                                             </Avatar>
                                                         </Grid>
