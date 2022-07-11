@@ -33,16 +33,11 @@ const BlogDetailScreen = ({ match, history }) => {
 
     // const baseURL = `http://localhost:4000/api/vv1/posts/postDetails/${id}`;
 
-    const { blog, status, comments, replies } = useSelector(state => state.blogs);
+    const { blog, status, comments } = useSelector(state => state.blogs);
 
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("tttt", post_id, user_id, text);
-        // if (!user_info) {
-        //     alert("please log in");
-        //     return;
-        // }
         const formData = {
             "text": text,
             "post_id": post_id,
@@ -58,8 +53,8 @@ const BlogDetailScreen = ({ match, history }) => {
         dispatch(findBlogById({ id: id }));
         if(user) setUSer_id(user.userId);
         setPost_id(id);
-    }, [dispatch])
-    console.log("ccc", comments);
+    }, [dispatch, id])
+    console.log("ccc", comments, blog);
 
 
 
@@ -93,7 +88,7 @@ const BlogDetailScreen = ({ match, history }) => {
                                     {ReactHtmlParser(blog.content)}
                                 </Typography>
                             </Card>
-                            <Comment comments={comments} replies={replies}/>
+                          
 
                             <h4 className="text-color-dark">Comment Please</h4>
                             <form onSubmit={handleSubmit} enctype="multipart/form-data" method="post">
@@ -107,6 +102,8 @@ const BlogDetailScreen = ({ match, history }) => {
                                 />
                                 <button>comment</button>
                             </form>
+                            <h4>Recent comments and replies</h4>
+                            <Comment comments={comments} id={id}/>
 
                         </Grid>
 

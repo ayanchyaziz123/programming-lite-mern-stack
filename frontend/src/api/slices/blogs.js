@@ -121,7 +121,7 @@ const BlogSlice = createSlice({
         },
         [createReply.fulfilled]: (state, action) => {
             state.status = "success";
-            state.replies = action.payload.reply;
+            state.comments = action.payload.comment;
         },
         [createReply.rejected]: (state, action) => {
             state.status = "failed";

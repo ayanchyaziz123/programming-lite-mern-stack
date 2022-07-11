@@ -20,9 +20,8 @@ exports.createComment = async (req, res, next) => {
         const postRelated = await Post.findById(id);
         // push the comment into the post.comments array
         postRelated.comment.push(comment);
-        console.log("success");
         // save and redirect...
-        const comments = await Comment.find({ post: post_id }).populate('user');
+        const comments = await Comment.find({ post: post_id }).populate('user').populate('reply').exec();
         await postRelated.save(function (err) {
             if (err) { console.log(err) }
             res.status(200).json({
@@ -58,21 +57,14 @@ exports.createReply = async (req, res, next) => {
         commentRelated.reply.push(reply);
         console.log("success2");
         // save and redirect...
-        const comments = await Comment.find({ post: post_id }).populate('user').populate({ 
-            path: 'reply',
-            populate: {
-              path: 'user'
-            } 
-         });
-        const replies = await Reply.find({comment: comment_id}).populate('user');
+        const comments = await Comment.find({ post: post_id }).populate('user').populate('reply').exec();
         console.log("hhh ", comments);
         await commentRelated.save(function (err) {
             if (err) { console.log(err) }
             res.status(200).json({
                 success: true,
-                "message": "Comment added successfully",
+                "message": "reply added successfully",
                 "comment": comments,
-                "reply": replies
             })
         })
 

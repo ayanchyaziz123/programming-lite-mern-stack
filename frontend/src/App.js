@@ -23,6 +23,13 @@ import { GlobalStyles } from '@mui/material';
 import EmailVerify from './screens/auth/EmailVerify';
 import ForgetPasswordScreen from './screens/auth/ForgetPasswordScreen';
 import PasswordVerify from './screens/auth/PasswordVerify';
+import TimeAgo from 'javascript-time-ago'
+
+import en from 'javascript-time-ago/locale/en.json'
+import ru from 'javascript-time-ago/locale/ru.json'
+
+TimeAgo.addDefaultLocale(en)
+TimeAgo.addLocale(ru)
 
 
 const darkTheme = createTheme({
