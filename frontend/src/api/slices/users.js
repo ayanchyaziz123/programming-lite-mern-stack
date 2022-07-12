@@ -2,8 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import UserService from "../services/UserService";
 
 const initialState = {
-    message: [],
+    message: null,
     user_info: null,
+    users: [],
+    user: null,
     status: null,
 };
 
@@ -49,9 +51,29 @@ export const SignIn = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk("auth/logout", async () => {
-    
+
     await UserService.logout();
 });
+
+
+
+export const getUsers = createAsyncThunk(
+    "users/getUsers",
+    async () => {
+        const res = await UserService.get_users();
+        return res.data;
+    }
+);
+
+export const findUserById = createAsyncThunk(
+    "blogs/findById",
+    async (id) => {
+        const res = await UserService.findById(id);
+        return res.data;
+    }
+);
+
+
 
 
 
@@ -61,9 +83,35 @@ const UserSlice = createSlice({
     initialState,
     extraReducers: {
 
+        [findUserById.pending]: (state, action) => {
+            state.status = "loading";
+        },
+
+        [findUserById.fulfilled]: (state, action) => {
+            state.user = action.payload.user;
+            state.status = "success";
+        },
+        [findUserById.rejected]: (state, action) => {
+            state.status = "failed";
+            state.message = action.payload;
+        },
+
+        [getUsers.pending]: (state, action) => {
+            state.status = "loading";
+        },
+
+        [getUsers.fulfilled]: (state, action) => {
+            state.users = action.payload.users;
+            state.status = "success";
+        },
+        [getUsers.rejected]: (state, action) => {
+            state.status = "failed";
+            state.message = action.payload;
+            console.log(action.payload);
+        },
         [logout.fulfilled]: (state, action) => {
-            state.user_info =  null;
-          },
+            state.user_info = null;
+        },
 
         [SignUp.pending]: (state, action) => {
             state.status = "loading";

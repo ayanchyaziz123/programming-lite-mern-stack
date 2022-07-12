@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Container, Typography } from '@mui/material';
+import { Avatar, Container, Typography } from '@mui/material';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -14,9 +14,8 @@ import Loaders from '../components/Loaders';
 import Pagination from '../components/Pagination';
 import {useLocation, useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    retrieveBlogs,
-} from '../api/slices/blogs';
+import { getUsers } from '../api/slices/users';
+import { red, purple, brown  } from '@mui/material/colors';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditRoadIcon from '@mui/icons-material/EditRoad';
 import PreviewIcon from '@mui/icons-material/Preview';
@@ -26,29 +25,24 @@ const baseURL = `http://localhost:4000/api/blog/blogs`;
 
 
 
-const BlogsListScreen = (props) => {
-    const [postDatas, setPostDatas] = React.useState([]);
-    const [loading, setLoading] = React.useState(false);
-    const [error, setError] = React.useState(false);
+const UsersListScreen = (props) => {
     const isAdmin = true;
-    const keyword = useLocation().search;
-
-
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
-    const { blogs, message, status, page, pages } = useSelector(state => state.blogs);
+    const { users, message, status } = useSelector(state => state.users);
     const redirect = location.state;
     const check = JSON.parse(localStorage.getItem('user_info'));
 
 
     
     React.useEffect(() => {
-        if (!check.isAdmin) {
-            navigate(redirect ? redirect : '/');
-        }
-         dispatch(retrieveBlogs(keyword));
-    }, [dispatch, keyword])
+        // if (!check.isAdmin) {
+        //     navigate(redirect ? redirect : '/');
+        // }
+        console.log("i am work")
+         dispatch(getUsers());
+    }, [dispatch])
 
     const deletePost = (id) => {
         var proceed = window.confirm("Are you sure you want to delete?");
@@ -64,8 +58,6 @@ const BlogsListScreen = (props) => {
 
             window.location.reload(true);
         } 
-        
-
     }
 
 
@@ -80,13 +72,15 @@ const BlogsListScreen = (props) => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>No</TableCell>
-                                <TableCell align="right">Title</TableCell>
-                                <TableCell align="right">Category</TableCell>
+                                <TableCell align="right">Name</TableCell>
+                                <TableCell align="right">Email</TableCell>
+                                <TableCell align="right">IsAdmin</TableCell>
+                                <TableCell align="right">Photo</TableCell>
                                 <TableCell align="right">Action</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {blogs.map((post, i) => (
+                            {users.map((user, i) => (
                                 <TableRow
                                     key={i}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -94,14 +88,17 @@ const BlogsListScreen = (props) => {
                                     <TableCell component="th" scope="row">
                                         {i + 1}
                                     </TableCell>
-                                    <TableCell align="right"> {`${post.title.substring(0, 20)}...`}</TableCell>
-                                    <TableCell align="right">{post.category}</TableCell>
+                                    <TableCell align="right"> {`${user.firstName.substring(0, 20)}...`}</TableCell>
+                                    <TableCell align="right">{user.email}</TableCell>
+                                    <TableCell align="right">{user.isAdmin ? 'yes' : 'no'} {user._idss}</TableCell>
+                                    <TableCell align="right"> <Avatar sx={{  }} alt="Remy Sharp" src={`http://localhost:4000/${user.profile_pic}`} >
+                                </Avatar></TableCell>
+                                   
                                     <TableCell align="right">
-                                        <Button value="My name is here" onClick={() => deletePost(post._id)} variant="contained" color="warning" size="small" sx={{ mr: 2 }}><DeleteIcon/></Button>
+                                    <Button value="My name is here" onClick={() => deletePost(user._id)} variant="contained" color="warning" size="small" sx={{ mr: 2 }}><DeleteIcon/></Button>
                                         <hr></hr>
-                                        <Button variant="contained"  component={Link} to={`/blogEditScreen/${post._id}`} sx={{ ml: 1 }} color="primary"><EditRoadIcon/></Button>
+                                        <Button variant="contained"  component={Link} to={`/userEditScreen/${user._id}`} sx={{ ml: 1 }} color="primary"><EditRoadIcon/></Button>
                                         <hr></hr>
-                                        <Button variant="contained" component={Link} to="/"  sx={{ ml: 1 }} color="secondary"><PreviewIcon/></Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -109,10 +106,8 @@ const BlogsListScreen = (props) => {
                     </Table>
                 </TableContainer>
             }
-            <hr></hr>
-            <Pagination pages={pages} page={page} keyword={keyword} isAdmin={isAdmin}/>  
         </Container>
     );
 }
 
-export default BlogsListScreen;
+export default UsersListScreen;

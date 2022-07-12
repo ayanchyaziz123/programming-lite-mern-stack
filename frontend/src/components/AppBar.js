@@ -30,6 +30,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
 import { Avatar } from '@mui/material';
 import { deepOrange, deepPurple } from '@mui/material/colors';
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 
 
 
@@ -118,6 +119,10 @@ export default function PrimarySearchAppBar(props) {
         navigate("/blogsListScreen");
         handleMenuClose();
     }
+    const userHandle = (event) => {
+        navigate("/usersListScreen");
+        handleMenuClose();
+    }
     const logIn = (event) => {
         const des = window.location.pathname;
         console.log("des ", des);
@@ -187,6 +192,14 @@ export default function PrimarySearchAppBar(props) {
                                 </Badge>
                             </IconButton>
                             <p>post</p>
+                        </MenuItem>
+                        <MenuItem onClick={userHandle}>
+                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                <Badge color="error">
+                                    <SupervisedUserCircleIcon/>
+                                </Badge>
+                            </IconButton>
+                            <p>user</p>
                         </MenuItem>
 
                             </> : null
@@ -308,6 +321,14 @@ export default function PrimarySearchAppBar(props) {
                                 </Badge>
                             </IconButton>
                             <p>post</p>
+                        </MenuItem>
+                        <MenuItem onClick={userHandle}>
+                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                <Badge color="error">
+                                    <SupervisedUserCircleIcon/>
+                                </Badge>
+                            </IconButton>
+                            <p>user</p>
                         </MenuItem>
                             </> :
                             null

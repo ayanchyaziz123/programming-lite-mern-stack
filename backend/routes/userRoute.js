@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 var multer = require('multer');
 
-const {SignUp, SignUp_verification, SignIn, ResetPassword, ResetPasswordVerification, UpdatePassword} = require('../controllers/userController');
+const {getUser, getUsers ,SignUp, SignUp_verification, SignIn, ResetPassword, ResetPasswordVerification, UpdatePassword} = require('../controllers/userController');
 
 const fileStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -18,6 +18,8 @@ const fileStorageEngine = multer.diskStorage({
   // You can create multiple middleware each with a different storage engine config so save different files in different locations on server
   const upload = multer({ storage: fileStorageEngine });
 
+router.route('').get(getUsers);  
+router.route('/userDetails/:id').get(getUser);
 router.route('/signUp').post(upload.single('profile_pic'),SignUp);
 router.route('/SignUp_verification/:id/:token').get(SignUp_verification)
 router.route('/signIn').post(SignIn);

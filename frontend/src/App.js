@@ -24,6 +24,8 @@ import EmailVerify from './screens/auth/EmailVerify';
 import ForgetPasswordScreen from './screens/auth/ForgetPasswordScreen';
 import PasswordVerify from './screens/auth/PasswordVerify';
 import TimeAgo from 'javascript-time-ago'
+import UsersListScreen from './screens/UsersListScreen';
+import UserEditScreen from './screens/UserEditScreen';
 
 import en from 'javascript-time-ago/locale/en.json'
 import ru from 'javascript-time-ago/locale/ru.json'
@@ -133,6 +135,12 @@ const  App = () => {
           <Routes>
             <Route path='/api/user/verify/:id/:token' element={<EmailVerify />} />
           </Routes>
+          <Routes>
+            <Route path="/usersListScreen" element={<UsersListScreen />} />
+        </Routes>
+        <Routes>
+            <Route path="/userEditScreen/:id" element={<UserEditScreen />} />
+        </Routes>
           {/* <Routes>
             <Route path="*" element={<NotFoundPage />} />
           </Routes> */}

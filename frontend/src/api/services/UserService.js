@@ -14,12 +14,22 @@ const logout = () => {
     localStorage.removeItem("user_info");
 };
 
+const get_users = () =>{
+    return http.get();
+}
+
+const findById = (id) =>{
+    return http.get(`/userDetails/${id}`);
+}
+
 
 
 const UserService = {
     sign_in,
     sign_up,
     SignUp_verification,
-    logout
+    logout,
+    get_users,
+    findById
 };
 export default UserService;

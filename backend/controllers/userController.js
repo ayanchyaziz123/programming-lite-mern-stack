@@ -5,6 +5,41 @@ const jwt = require("jsonwebtoken");
 const sendEmail = require('../utils/sendMail');
 
 
+exports.getUser =  async (req, res, next) =>{
+    console.log("id", req.params.id);
+    try{
+        user = await User.findById(_id = req.params.id);
+        console.log("users is here => ", user);
+        return res.status(200).json({
+            "user": user,
+            "message": "Success"
+        })
+
+    }
+    catch(err)
+    {
+        console.log("error is here => ", err);
+        return res.status(400).json({error: "error occured"});
+    }
+}
+
+exports.getUsers = async (req, res, next) =>{
+    try{
+        users = await User.find();
+        console.log("users is here => ", users);
+        return res.status(200).json({
+            "users": users,
+            "message": "Success"
+        })
+    }
+    catch(err)
+    {
+        console.log("error is here => ", err);
+        return res.status(400).json({error: "error occured"});
+    }
+}
+
+
 // for creating user
 exports.SignUp = async (req, res, next) => {
 

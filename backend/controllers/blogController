@@ -176,12 +176,13 @@ exports.getAllBlogs = async (request, response, next) => {
 exports.getBlogById = async (request, response, next) => {
     //const id = request.params.id;
     //console.log("Id ::: ", id);
+  
     try {
         const post = await Post.findById(_id = request.params.id).populate('comment');
         //TO DO HERE
         const comment = await Comment.find({ post: request.params.id }).populate('user').populate('reply').populate({
             path: 'reply',
-            populate:{
+            populate: {
                 path: 'user',
             }
         });
