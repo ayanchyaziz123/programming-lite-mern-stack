@@ -11,6 +11,7 @@ require('dotenv').config()
 
 // // for parsing application/json
 app.use(bodyParser.json()); 
+app.use(express.json());
 
 // // for parsing application/xwww-
 // app.use(bodyParser.urlencoded({ extended: true })); 

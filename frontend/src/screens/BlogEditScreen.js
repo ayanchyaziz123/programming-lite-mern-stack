@@ -31,7 +31,8 @@ const BlogEditScreen = ({ match, history }) => {
 
     // const baseURL = `http://localhost:4000/api/vv1/posts/postDetails/${id}`;
 
-    const { blog, status } = useSelector(state => state.blogs);
+    const blogDetailes = useSelector(state => state.blogs);
+    const { blog, status } = blogDetailes;
 
     const navigate = useNavigate();
     const [res, setRes] = React.useState();
@@ -42,7 +43,6 @@ const BlogEditScreen = ({ match, history }) => {
     const [author, setAuthor] = React.useState('');
     const [content, setContent] = React.useState('');
     const [blogId, setBlogId] = React.useState('');
-    const [b, setB] = useState(null);
 
 
 
@@ -50,11 +50,12 @@ const BlogEditScreen = ({ match, history }) => {
 
     const initFetch = useCallback(() => {
         dispatch(findBlogById({ id: id }));
-    }, [dispatch])
+    }, [dispatch, id, blog])
 
     useEffect(() => {
-        if(!blog.title)
+        if(!blog || id !== blog._id)
         {
+            console.log(blog, id, blog._id)
             initFetch();
         }
         else{
@@ -66,7 +67,7 @@ const BlogEditScreen = ({ match, history }) => {
             setContent(blog.content);
             setBlogId(blog._id);
         }
-    }, [initFetch, blog, id])
+    }, [initFetch])
     
 
    const update = (e) =>{

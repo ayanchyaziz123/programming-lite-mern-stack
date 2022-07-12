@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Card, Container, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Alert, Button, Card, Container, TextField, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
@@ -8,6 +8,18 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange, deepPurple } from '@mui/material/colors';
+import { getUpdateUser, userProfile} from '../../api/slices/users';
+import { useDispatch, useSelector } from 'react-redux';
+import { FourGMobiledataRounded } from '@mui/icons-material';
+import axios from 'axios';
+const baseURL = `http://localhost:4000/api/user/updateUser`;
+
+
+
+
+
+
+
 
 
 
@@ -21,71 +33,132 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const Profile = () => {
     const theme = createTheme();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem('user_info'));
+    const check = JSON.parse(localStorage.getItem('user_info'));
     const [expanded, setExpanded] = React.useState(false);
+    const { user, status, updateSuccess } = useSelector(state => state.users);
+    const [firstName, setFirstName] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [image, setImage] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [userId, setUserId] = React.useState(null);
+    const [message, setMessage] = useState('');
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
+    const update = async (e) =>{
+        e.preventDefault();
+        if(!email || !firstName || !lastName  || !password || !image ||  !userId)
+        {
+            alert("every field must be filled up!!!. you did not fill")
+            return
+        }
+        const formData = new FormData();
+        formData.append('firstName', firstName);
+        formData.append('lastName', lastName);
+        formData.append('email', email);
+        formData.append('image', image)
+        formData.append('password', password);
+        formData.append('userId', userId);
+        console.log("email ", email)
+        try{
+            const res = axios.post(baseURL, formData);
+            setFirstName(res.data.user.firstName);
+            setLastName(res.data.user.lastName);
+            setEmail(res.data.user.email);
+            setImage(res.data.user.image);
+            setUserId(res.data.userId);
+            setMessage(res.data.message);
+            alert("updated");
+        }
+        catch(error)
+        {
+        }
+    }
+
 
 
     useEffect(() => {
-        const check = localStorage.getItem('user_info') 
+        
         if (!check) {
             navigate('/');
         }
-    }, [user])
+        else if(updateSuccess)
+        {
+            alert("Update success")
+        }
+        else if (!user || !user.firstName  || check.userId !== user._id) {
+            const data = {id: check.userId}
+            dispatch(userProfile(data));
+        }
+        else{
+            setFirstName(user.firstName);
+            setLastName(user.lastName)
+            setEmail(user.email);
+            setImage(user.profile_pic);
+            setUserId(user._id);
+        }
+    }, [user, dispatch, message])
+
 
 
 
     return (
         <div className="large-devices-margin">
-            <Grid container spacing={2} sx={{ mt: 4 }}>
-            <Grid item xs={2}>
-                
+                <Container >
+                    <Card sx={{mt: 2, p: 2}}>
+    
+                    
+                    <form onSubmit={update} enctype="multipart/form-data" method="post">
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                            {
+                              message ? 
+                              <Alert severity="success">{message}</Alert> : null
+                         }
+                                <Box sx={{mt: 2}}>
+                                    <TextField fullWidth id="filled-basic" value={firstName} label="firstName" variant="outlined" size="small" name="firstName" onChange={(e) => { setFirstName(e.target.value) }} />
+                                </Box>
+                                <Box sx={{ mt: 2 }}>
+                                    <TextField fullWidth id="filled-basic" value={lastName} label="lastName" variant="outlined" size="small" name="lastName" onChange={(e) => { setLastName(e.target.value) }} />
+                                </Box>
+                                <Box sx={{ mt: 2 }}>
+                                    <TextField fullWidth id="filled-basic" value={email} label="email" variant="outlined" size="small" name="email"  onChange={(e) => { setEmail(e.target.value) }} disabled/>
+                                </Box>
+                                <Box sx={{ mt: 2 }}>
+                                    <span>You cant upadate password here. password is needed for update others value</span>
+                                    <TextField fullWidth type="password" id="filled-basic"  variant="outlined" size="small" name="email"  onChange={(e) => { setPassword(e.target.value) }}/>
+                                </Box>
 
-                <Avatar sx={{width: 200, height: 200, bgcolor: deepPurple[500] }} alt="Remy Sharp" src={`http://localhost:4000/${user ? user.profile_pic : null}`} title="profile"/>
+                            </Grid>
+                            <Grid item xs={4} sx={{ml: 2}}>
+                            <Box sx={{ }}>
+                            <TextField 
+                            fullWidth 
+                            id="filled-basic" 
+                            type="file" 
+                            variant="outlined"
+                            accept=".png, .jpg, .jpeg"
+                            name="image"
+                            size="small" 
+                            onChange={(e) => { setImage(e.target.files[0]) }} />
+                        </Box>
+                            <Avatar sx={{width: 200, height: 200, bgcolor: deepPurple[500], mt: 3 }} alt="Remy Sharp" src={`http://localhost:4000/${image}`} title="profile"/>
+                           
+  
+                            </Grid>
 
-                    {/* <Box
-                        component="img"
-                        sx={{
-                            height: 233,
-                            width: 350,
-                            maxHeight: { xs: 233, md: 167 },
-                            maxWidth: { xs: 350, md: 250 },
-                        }}
-                        alt="The house from the offer."
-                        src=""
-                    /> */}
-               
-            </Grid>
-                <Grid item xs={8}>
-                    <Item>
-
-                        <Typography variant="h5"  component="div">
-                            First Name: {user.firstName}
-                        </Typography >
-                        <Typography variant="h5" gutterBottom component="div">
-                            Last Name: {user.lastName}
-                        </Typography>
-                        <Typography variant="h5" gutterBottom component="div">
-                            Email : {user.email}
-                        </Typography>
-                        <hr></hr>
-                        <Typography variant="h5" gutterBottom component="div">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
-                        and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                        </Typography>
-                        <hr></hr>
-
-
-
-                    </Item>
-                </Grid>
-               
-            </Grid>
+                        </Grid>
+                        <Button type="submit" variant="contained" color="primary" style={{ margin: '10px 0 10px 0' }}>
+                            Update
+                        </Button>
+                    </form>
+                    </Card>
+                </Container>
         </div>
     )
 }

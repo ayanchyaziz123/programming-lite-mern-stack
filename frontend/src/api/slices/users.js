@@ -7,6 +7,7 @@ const initialState = {
     users: [],
     user: null,
     status: null,
+    updateSuccess: null,
 };
 
 
@@ -66,10 +67,30 @@ export const getUsers = createAsyncThunk(
 );
 
 export const findUserById = createAsyncThunk(
-    "blogs/findById",
+    "users/findById",
     async (id) => {
         const res = await UserService.findById(id);
         return res.data;
+    }
+);
+
+//error here ---->>>>>>>.
+
+
+export const getUpdateUser = createAsyncThunk(
+    "users/getUpdateUser",
+    async (user, { rejectWithValue }) => {
+        try {
+            const res = await UserService.getUpdateUser(user);
+            console.log("getuser ", res);
+            return res.data;
+        } catch (err) {
+            console.log("data ", err)
+            if (!err.response) {
+                throw err
+            }
+            return rejectWithValue(err.response.data)
+        }
     }
 );
 
@@ -77,11 +98,71 @@ export const findUserById = createAsyncThunk(
 
 
 
+export const userProfile = createAsyncThunk(
+    "blogs/userProfile",
+    async (id, { rejectWithValue }) => {
+        try {
+            const res = await UserService.userProfile(id);
+            console.log("res2 -->>>>", res);
+            return res.data;
+        } catch (err) {
+            if (!err.response) {
+                throw err
+            }
+            return rejectWithValue(err.response.data)
+        }
+    }
+);
+
 
 const UserSlice = createSlice({
     name: "user",
     initialState,
     extraReducers: {
+
+        [userProfile.pending]: (state, action) => {
+            state.status = "loading";
+            state.message = null;
+            state.user = null;
+        },
+
+        [userProfile.fulfilled]: (state, action) => {
+            state.user = action.payload.user;
+            state.message = action.payload.message;
+            state.status = "success";
+        },
+        [userProfile.rejected]: (state, action) => {
+           
+            state.status = "failed";
+            console.log(action.payload);
+            state.message = action.payload;
+        },
+
+        ///UPDATE user
+
+
+
+        //UPDATE user end
+
+        //update
+        [getUpdateUser.pending]: (state, action) => {
+            state.status = "loading";
+        },
+
+        [getUpdateUser.fulfilled]: (state, action) => {
+            state.user = action.payload;
+            state.status = "success";
+        },
+        [getUpdateUser.rejected]: (state, action) => {
+            state.status = "failed";
+            state.message = action.payload;
+        },
+
+        //end
+
+        [getUsers.pending]: (state, action) => {
+            state.status = "loading";
+        },
 
         [findUserById.pending]: (state, action) => {
             state.status = "loading";

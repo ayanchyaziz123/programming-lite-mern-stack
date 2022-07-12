@@ -20,6 +20,9 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 import { findUserById } from '../api/slices/users';
 import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Avatar from '@mui/material/Avatar';
+import { deepOrange, deepPurple } from '@mui/material/colors';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -39,16 +42,28 @@ const UserEditScreen = ({ match, history }) => {
     const [lastName, setLastName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [image, setImage] = React.useState('');
-    const [isAdmin, setIsAdmin] = React.useState('');
-    const [verified, setVerified] = React.useState('');
+    const [isAdmin, setIsAdmin] = React.useState(false);
+    const [verified, setVerified] = React.useState(false);
+    const [userId, setUserssId] = React.useState('');
+
+   const handleVerified = (e) =>{
+        if(verified) setVerified(false)
+        else setVerified(true);
+    }
+
+    const handleAdmin = (e) =>{
+        if(isAdmin) setIsAdmin(false);
+        else setIsAdmin(true);
+    }
 
 
     const initFetch = useCallback(() => {
         dispatch(findUserById(id))
-    }, [dispatch])
+    }, [dispatch, id, user])
 
     useEffect(() => {
-        if(!user)
+       
+        if(!user || id != user._id)
         {
             initFetch();
         }
@@ -60,7 +75,7 @@ const UserEditScreen = ({ match, history }) => {
             setImage(user.profile_pic);
             setVerified(user.verified)
         }
-    }, [initFetch, id, user])
+    }, [initFetch])
     
 
    const update = (e) =>{
@@ -88,7 +103,7 @@ const UserEditScreen = ({ match, history }) => {
                     <h1>Edit A Post</h1>
                     <form onSubmit={update}>
                         <Grid container spacing={2}>
-                            <Grid item xs={4}>
+                            <Grid item xs={6}>
                                 <Box>
                                     <TextField fullWidth id="filled-basic" value={firstName} label="firstName" variant="outlined" size="small" name="firstName" onChange={(e) => { setFirstName(e.target.value) }} />
                                 </Box>
@@ -96,25 +111,32 @@ const UserEditScreen = ({ match, history }) => {
                                     <TextField fullWidth id="filled-basic" value={lastName} label="lastName" variant="outlined" size="small" name="lastName" onChange={(e) => { setLastName(e.target.value) }} />
                                 </Box>
                                 <Box sx={{ mt: 2 }}>
-                                    <TextField fullWidth id="filled-basic" value={email} label="email" variant="outlined" size="small" name="email"  onChange={(e) => { setEmail(e.target.value) }} />
+                                    <TextField fullWidth id="filled-basic" value={email} label="email" variant="outlined" size="small" name="email"  onChange={(e) => { setEmail(e.target.value) }} disabled/>
                                 </Box>
                                 <Box sx={{ mt: 2 }}>
-                                isAdmin : <Checkbox {...label} checked={!isAdmin ? false : true} />
+                                <FormControlLabel control={<Checkbox checked={!isAdmin ? false : true} />} label="isAdmin" onClick={handleAdmin}/>
                                 </Box>
                                 <Box sx={{ mt: 2 }}>
-                                verified : <Checkbox {...label} checked={!verified ? false : true} />
+                                <FormControlLabel control={<Checkbox checked={!verified ? false : true} />} label="verified" onClick={handleVerified}/>
                                 </Box>
 
                             </Grid>
-                            {/* <Grid item xs={8}>
-                                <CKEditor editor={ClassicEditor}
-                                    onChange={(e, editor) => setContent(editor.getData())} data={content}
-                                />
-                                <Box>
-                                    {ReactHtmlParser(content)}
-                                </Box>
-
-                            </Grid> */}
+                            <Grid item xs={4} sx={{ml: 2}}>
+                            <Box sx={{ }}>
+                            <TextField 
+                            fullWidth 
+                            id="filled-basic" 
+                            type="file" 
+                            variant="outlined"
+                            accept=".png, .jpg, .jpeg"
+                            name="image"
+                            size="small" 
+                            onChange={(e) => { setImage(e.target.files[0]) }} />
+                        </Box>
+                            <Avatar sx={{width: 200, height: 200, bgcolor: deepPurple[500], mt: 3 }} alt="Remy Sharp" src={`http://localhost:4000/${image}`} title="profile"/>
+                           
+  
+                            </Grid>
 
                         </Grid>
                         <Button type="submit" variant="contained" color="primary" style={{ margin: '10px 0 10px 0' }}>

@@ -1,5 +1,6 @@
 import http from "../http-common2";
 import httpUserCreate from '../http-user-create';
+import http5 from "../slices/http-5";
 const sign_in = (user) => {
     return http.post(`/signIn`, user);
 };
@@ -22,7 +23,18 @@ const findById = (id) =>{
     return http.get(`/userDetails/${id}`);
 }
 
+const userProfile = (id) =>{
+    return http.post('/userProfile', id);
+}
 
+const getUpdateUser = (user) =>{
+    http5.post(`/updateUser`, user)
+}
+
+
+const update_user = (data) =>{
+    httpUserCreate.post('/updateUser', data)
+}
 
 const UserService = {
     sign_in,
@@ -30,6 +42,9 @@ const UserService = {
     SignUp_verification,
     logout,
     get_users,
-    findById
+    findById,
+    update_user,
+    userProfile,
+    getUpdateUser
 };
 export default UserService;

@@ -3,11 +3,75 @@ const Token = require('../models/token');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sendEmail = require('../utils/sendMail');
+const mongoose = require('mongoose');
+const { json } = require('body-parser');
 
 
-exports.getUser =  async (req, res, next) =>{
+
+exports.UpdateUser = async (req, res, next) => {
+    console.log("i am here", req.body);
+
+    try {
+    
+        const { userId, firstName, lastName, email, password } = req.body;
+        const existingUser = await User.findOne({ email: email });
+        const isValidPassword = await bcrypt.compare(password, existingUser.password);
+        if (!isValidPassword) return res.status(400).json({ error: "password does not match" });
+        let user;
+        if (!req.file) {
+            user = {
+                firstName: firstName,
+                lastName: lastName,
+            }
+        }
+        else {
+            user = {
+                firstName: firstName,
+                lastName: lastName,
+                profile_pic: req.file.filename
+            }
+        }
+       const id = mongoose.Types.ObjectId(userId);
+        const filter = { _id: id }
+        let updateUser = await User.findOneAndUpdate(filter, user, {
+            new: true
+        });
+
+        console.log("here ", updateUser);
+
+        return res.status(200).json({
+            "message": "update successfully",
+            "user": updateUser
+        })
+
+    }
+    catch (err) {
+        console.log("error is here => ", err);
+        return res.status(400).json({ error: "error occured" });
+    }
+}
+
+
+exports.GetUser = async (req, res, next) => {
+    console.log("id   ", req.body.id);
+    try {
+        user = await User.findById(_id = req.body.id);
+        console.log("users is here2 => ", user);
+        return res.status(200).json({
+            "user": user,
+            "message": "Profile Loaded!"
+        })
+
+    }
+    catch (err) {
+        console.log("error is here => ", err);
+        return res.status(400).json({ error: "error occured" });
+    }
+}
+
+exports.GetAdminUser = async (req, res, next) => {
     console.log("id", req.params.id);
-    try{
+    try {
         user = await User.findById(_id = req.params.id);
         console.log("users is here => ", user);
         return res.status(200).json({
@@ -16,26 +80,23 @@ exports.getUser =  async (req, res, next) =>{
         })
 
     }
-    catch(err)
-    {
+    catch (err) {
         console.log("error is here => ", err);
-        return res.status(400).json({error: "error occured"});
+        return res.status(400).json({ error: "error occured" });
     }
 }
 
-exports.getUsers = async (req, res, next) =>{
-    try{
+exports.getUsers = async (req, res, next) => {
+    try {
         users = await User.find();
-        console.log("users is here => ", users);
         return res.status(200).json({
             "users": users,
             "message": "Success"
         })
     }
-    catch(err)
-    {
+    catch (err) {
         console.log("error is here => ", err);
-        return res.status(400).json({error: "error occured"});
+        return res.status(400).json({ error: "error occured" });
     }
 }
 
@@ -302,7 +363,7 @@ exports.SignIn = async (req, res, next) => {
         profile_pic: existingUser.profile_pic,
         access_token: token
     }
-    res.status(200).json({
+    return res.status(200).json({
         "access_token": token,
         "user_info": user_info,
         "message": "logIn successfully"
