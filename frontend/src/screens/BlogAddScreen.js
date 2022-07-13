@@ -34,6 +34,7 @@ const BlogAddScreen = () =>{
     const [content, setContent] = React.useState('');
     const [thumbnail, setThumbnail] = React.useState(null);
     
+    
 
 
     const handleSubmit =  async (event) =>{

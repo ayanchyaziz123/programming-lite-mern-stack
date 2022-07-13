@@ -154,7 +154,6 @@ exports.GetAdminUser = async (req, res, next) => {
     console.log("id", req.params.id);
     try {
         user = await User.findById(_id = req.params.id);
-        console.log("users is here => ", user);
         return res.status(200).json({
             "user": user,
             "message": "Success"
@@ -176,7 +175,6 @@ exports.getUsers = async (req, res, next) => {
         })
     }
     catch (err) {
-        console.log("error is here => ", err);
         return res.status(400).json({ error: "error occured" });
     }
 }
@@ -204,9 +202,9 @@ exports.SignUp = async (req, res, next) => {
             return res.status(400).json({ error: "Not all fields have been entered." });
         }
         const existingUser = await User.findOne({ email: email });
-        // if (existingUser) {
-        //     res.status(400).send({ error: 'This email address is already being used' })
-        // }
+        if (existingUser) {
+            res.status(400).send({ error: 'This email address is already being used' })
+        }
 
 
         const salt = await bcrypt.genSalt();
