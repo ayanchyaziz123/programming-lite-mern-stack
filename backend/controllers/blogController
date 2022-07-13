@@ -24,6 +24,8 @@ const checkLogIn = require('../middleware/checkLogin');
 
 
 
+
+
 exports.categories = async (req, res, next) => {
 
     try {
@@ -249,9 +251,9 @@ exports.updateBlog = async (request, response, next) => {
 
         Post.updateOne({ _id: request.params.id }, blog).then(
             () => {
-                // res.status(201).json({
-                //     message: 'Thing updated successfully!'
-                // });
+                res.status(200).json({
+                    message: 'blog updated successfully!'
+                });
                 console.log("success");
             }
         ).catch(

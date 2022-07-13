@@ -5,7 +5,7 @@ import CustomeSwitch from '../components/CustomeSwitch';
 import Card from '@mui/material/Card';
 import Categories from '../components/Categories';
 import Subscribe from '../components/Subscribe';
-import { Typography } from '@mui/material';
+import { Alert, Typography } from '@mui/material';
 import Loaders from '../components/Loaders';
 import { useParams } from "react-router";
 import { Container } from '@mui/material';
@@ -23,8 +23,12 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange, deepPurple } from '@mui/material/colors';
+import axios from 'axios';
+
+
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+const baseURL = `http://localhost:4000/api/user/updateAdminUser`;
 
 
 
@@ -44,7 +48,9 @@ const UserEditScreen = ({ match, history }) => {
     const [image, setImage] = React.useState('');
     const [isAdmin, setIsAdmin] = React.useState(false);
     const [verified, setVerified] = React.useState(false);
-    const [userId, setUserssId] = React.useState('');
+    const [userId, setUserId] = React.useState('');
+    const [error, setError] = React.useState('');
+    const [message, setMessage] = React.useState('');
 
    const handleVerified = (e) =>{
         if(verified) setVerified(false)
@@ -56,12 +62,48 @@ const UserEditScreen = ({ match, history }) => {
         else setIsAdmin(true);
     }
 
+    const handleSubmit = async (e) =>{
+        e.preventDefault();
+        if(!firstName || !lastName || !email ||  !userId || !image)
+        {
+            console.log("fn ", firstName, email);
+            alert("all field need to be filled");
+            return;
+        }
+        const formData = new FormData();
+        formData.append('firstName', firstName);
+        formData.append('lastName', lastName);
+        formData.append('email', email);
+        formData.append('image', image);
+        formData.append('userId', userId);
+        formData.append('verified', verified);
+        formData.append('isAdmin', isAdmin);
+
+        try{
+            const res = await axios.post(baseURL, formData);
+           setMessage(res.data.message)
+           alert("update completed");
+     
+        }
+        catch(error)
+        {
+            alert("Not Updated")
+            setError(error.response.data.error);
+        }
+
+    }
+
 
     const initFetch = useCallback(() => {
         dispatch(findUserById(id))
-    }, [dispatch, id, user])
+    }, [id, user])
 
     useEffect(() => {
+        if(error)
+        {
+            alert(error);
+            return;
+        }
        
         if(!user || id != user._id)
         {
@@ -74,6 +116,7 @@ const UserEditScreen = ({ match, history }) => {
             setIsAdmin(user.isAdmin);
             setImage(user.profile_pic);
             setVerified(user.verified)
+            setUserId(id);
         }
     }, [initFetch])
     
@@ -96,14 +139,21 @@ const UserEditScreen = ({ match, history }) => {
 
     return (
 
-        <div>
+        <div className="large-devices-margin">
             {status == "loading" ? <Loaders /> : status == "failed" ? <h2>Error</h2> :
 
-                <Container>
-                    <h1>Edit A Post</h1>
-                    <form onSubmit={update}>
+            
+                    <Card sx={{p: 2}}>
+                    <h1>Edit An User</h1>
+                    <form onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
+                        
                             <Grid item xs={6}>
+                                <Box sx={{mb: 2}}>
+                                {
+                              error ?  <Alert severity="error">{error}</Alert>  : message ? <Alert severity="success">{message}</Alert>: null
+                         }
+                                </Box>
                                 <Box>
                                     <TextField fullWidth id="filled-basic" value={firstName} label="firstName" variant="outlined" size="small" name="firstName" onChange={(e) => { setFirstName(e.target.value) }} />
                                 </Box>
@@ -143,7 +193,7 @@ const UserEditScreen = ({ match, history }) => {
                             Update
                         </Button>
                     </form>
-                </Container>
+                    </Card>
             }
         </div>
     )

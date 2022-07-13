@@ -5,7 +5,73 @@ const jwt = require("jsonwebtoken");
 const sendEmail = require('../utils/sendMail');
 const mongoose = require('mongoose');
 const { json } = require('body-parser');
+const Comment = require('../models/user');
+const Reply = require('../models/reply');
 
+
+
+exports.DeleteUser = async (request, response, next) => {
+    try {
+        const user = await User.findByIdAndRemove(request.params.id);
+        // await Comment.deleteOne({ user: request.params.id })
+        // await Reply.deleteOne({ user: request.params.id })
+        response.status(300).json({
+            user: user,
+            message: "Succesfully deleted"
+        })
+    }
+    catch (error) {
+        response.status(500).json(
+            {
+                message: "server error"
+            }
+        )
+
+    }
+}
+
+
+exports.UpdateAdminUser = async (req, res, next) => {
+    try {
+        const { userId, firstName, lastName, email, verified, isAdmin } = req.body;
+        let user;
+        if (!req.filename) {
+            user = {
+                firstName: firstName,
+                lastName: lastName,
+                verified: verified,
+                isAdmin: isAdmin
+            }
+        }
+        else {
+            user = {
+                firstName: firstName,
+                lastName: lastName,
+                verified: verified,
+                isAdmin: isAdmin,
+                profile_pic: req.file.filename
+            }
+
+        }
+        const id = mongoose.Types.ObjectId(userId);
+        const filter = { _id: id }
+        let updateUser = await User.findOneAndUpdate(filter, user, {
+            new: true
+        });
+
+        return res.status(200).json({
+            "user": updateUser,
+            "message": "Update successfully"
+        })
+
+    }
+    catch (error) {
+        return res.status(400).json({
+            "error": "error occured"
+        })
+
+    }
+}
 
 
 exports.UpdateUser = async (req, res, next) => {
@@ -165,16 +231,16 @@ exports.SignUp = async (req, res, next) => {
             token: createToken,
         }).save();
 
-        const message = `http://localhost:3000/api/user/verify/${savedUser.id}/${token.token}`;
-        const check = await sendEmail(savedUser.email, "Verify Email", message);
-        if (!check) {
-            await Token.findByIdAndRemove(savedUser._id);
-            await User.findByIdAndRemove(token._id);
-            return res.status(400).json({ error: "Your Given Email Does not work!!!" });
-        }
-        else {
+        // const message = `http://localhost:3000/api/user/verify/${savedUser.id}/${token.token}`;
+        // const check = await sendEmail(savedUser.email, "Verify Email", message);
+        // if (!check) {
+        //     await Token.findByIdAndRemove(savedUser._id);
+        //     await User.findByIdAndRemove(token._id);
+        //     return res.status(400).json({ error: "Your Given Email Does not work!!!" });
+        // }
+        // else {
             return res.status(200).json({ "msg": "Go to email and verify your account!!!!" });
-        }
+        //}
     }
     catch (error) {
         console.log(error)

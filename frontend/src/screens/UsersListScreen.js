@@ -20,7 +20,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditRoadIcon from '@mui/icons-material/EditRoad';
 import PreviewIcon from '@mui/icons-material/Preview';
 
-const baseURL = `http://localhost:4000/api/blog/blogs`;
+
 
 
 
@@ -37,27 +37,37 @@ const UsersListScreen = (props) => {
 
     
     React.useEffect(() => {
-        // if (!check.isAdmin) {
-        //     navigate(redirect ? redirect : '/');
-        // }
-        console.log("i am work")
+        if (!check.isAdmin) {
+            navigate(redirect ? redirect : '/');
+        }
          dispatch(getUsers());
     }, [dispatch])
 
-    const deletePost = (id) => {
+    const deleteUser = (event, id)  => {
+        event.preventDefault();
+        const baseURL = `http://localhost:4000/api/user/deleteUser/${id}`;
         var proceed = window.confirm("Are you sure you want to delete?");
         if (proceed) {
-            axios.delete(`http://localhost:4000/api/blog/blogDelete/${id}`).then((res) => {
-                console.log("post deleted");
-
+            axios.delete(baseURL).then((res) => {
+                alert("post deleted");
+                window.location.reload(true);
 
             }).catch((error) => {
                 alert("Did not delete")
-                console.log(error);
             })
 
-            window.location.reload(true);
+          
         } 
+    }
+    const disabled  = (id) =>{
+        var disabled;
+        if(check.userId == id)
+        {
+            disabled = true;
+        }
+        else{
+            disabled = false;
+        }
     }
 
 
@@ -95,10 +105,10 @@ const UsersListScreen = (props) => {
                                 </Avatar></TableCell>
                                    
                                     <TableCell align="right">
-                                    <Button value="My name is here" onClick={() => deletePost(user._id)} variant="contained" color="warning" size="small" sx={{ mr: 2 }}><DeleteIcon/></Button>
+                                    {/* <Button value="My name is here" onClick={(event) => deleteUser(event, user._id)} variant="contained" color="warning" size="small" sx={{ mr: 2 }} disabled={user._id == check.userId ? true : false}><DeleteIcon/></Button> */}
                                         <hr></hr>
-                                        <Button variant="contained"  component={Link} to={`/userEditScreen/${user._id}`} sx={{ ml: 1 }} color="primary"><EditRoadIcon/></Button>
-                                        <hr></hr>
+                                        <Button variant="contained"  component={Link} to={`/userEditScreen/${user._id}`} sx={{ ml: 1 }} color="primary" disabled={user._id == check.userId ? true : false}><EditRoadIcon/></Button>
+                                      
                                     </TableCell>
                                 </TableRow>
                             ))}

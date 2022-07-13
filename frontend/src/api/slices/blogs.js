@@ -172,11 +172,7 @@ const BlogSlice = createSlice({
 
 
         [updateBlog.fulfilled]: (state, action) => {
-            // const index = state.findIndex(tutorial => tutorial.id === action.payload.id);
-            // state[index] = {
-            //     ...state[index],
-            //     ...action.payload,
-            // };
+            
         },
 
 
