@@ -10,7 +10,7 @@ import Avatar from '@mui/material/Avatar';
 import { deepOrange, deepPurple } from '@mui/material/colors';
 import { getUpdateUser, userProfile} from '../../api/slices/users';
 import { useDispatch, useSelector } from 'react-redux';
-import { FourGMobiledataRounded } from '@mui/icons-material';
+import { CompressOutlined, FourGMobiledataRounded } from '@mui/icons-material';
 import axios from 'axios';
 const baseURL = `http://localhost:4000/api/user/updateUser`;
 
@@ -36,6 +36,7 @@ const Profile = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const check = JSON.parse(localStorage.getItem('user_info'));
+    const [user_info, setUserInfo] = useState(null);
     const [expanded, setExpanded] = React.useState(false);
     const { user, status, updateSuccess } = useSelector(state => state.users);
     const [firstName, setFirstName] = React.useState('');
@@ -45,6 +46,8 @@ const Profile = () => {
     const [password, setPassword] = React.useState('');
     const [userId, setUserId] = React.useState(null);
     const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
+    const [update_user, setUpdate_user] = useState('');
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -66,23 +69,50 @@ const Profile = () => {
         formData.append('userId', userId);
         console.log("email ", email)
         try{
-            const res = axios.post(baseURL, formData);
+            const res = await axios.post(baseURL, formData);
+            setUpdate_user(res.data.user);
             setFirstName(res.data.user.firstName);
             setLastName(res.data.user.lastName);
             setEmail(res.data.user.email);
-            setImage(res.data.user.image);
+            setImage(res.data.user.profile_pic);
             setUserId(res.data.userId);
             setMessage(res.data.message);
-            alert("updated");
+            setUserInfo(res.data.user_info);
         }
         catch(error)
         {
+            setError(error.response.data.error);
         }
     }
 
 
 
     useEffect(() => {
+
+        if(message || error || user_info) {
+
+            
+
+            if(message)
+            {
+                console.log(message);
+                window.location.reload();
+            }
+
+
+            if(user_info)
+            {
+                localStorage.setItem('user_info', JSON.stringify(user_info));
+            } 
+            if(error)
+            {
+                console.log("err", error);
+                alert(error);
+                window.location.reload();
+            }
+            return
+        }
+        else{
         
         if (!check) {
             navigate('/');
@@ -102,7 +132,8 @@ const Profile = () => {
             setImage(user.profile_pic);
             setUserId(user._id);
         }
-    }, [user, dispatch, message])
+    }
+    }, [user, dispatch, message, user_info, error])
 
 
 
@@ -117,7 +148,7 @@ const Profile = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                             {
-                              message ? 
+                              error ?  <Alert severity="error">{error}</Alert>  : message ? 
                               <Alert severity="success">{message}</Alert> : null
                          }
                                 <Box sx={{mt: 2}}>

@@ -12,7 +12,7 @@ exports.UpdateUser = async (req, res, next) => {
     console.log("i am here", req.body);
 
     try {
-    
+
         const { userId, firstName, lastName, email, password } = req.body;
         const existingUser = await User.findOne({ email: email });
         const isValidPassword = await bcrypt.compare(password, existingUser.password);
@@ -31,17 +31,32 @@ exports.UpdateUser = async (req, res, next) => {
                 profile_pic: req.file.filename
             }
         }
-       const id = mongoose.Types.ObjectId(userId);
+        const id = mongoose.Types.ObjectId(userId);
         const filter = { _id: id }
         let updateUser = await User.findOneAndUpdate(filter, user, {
             new: true
         });
 
-        console.log("here ", updateUser);
+        const token = jwt.sign({
+            email: updateUser.email,
+            userId: updateUser._id
+        }, process.env.KEY, {
+            expiresIn: '1h'
+        })
+        const user_info = {
+            firstName: updateUser.firstName,
+            lastName: updateUser.lastName,
+            userId: updateUser._id,
+            email: updateUser.email,
+            isAdmin: updateUser.isAdmin,
+            profile_pic: updateUser.profile_pic,
+            access_token: token
+        }
 
         return res.status(200).json({
             "message": "update successfully",
-            "user": updateUser
+            "user": updateUser,
+            "user_info": user_info
         })
 
     }
