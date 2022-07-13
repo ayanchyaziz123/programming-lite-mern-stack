@@ -106,7 +106,6 @@ const Profile = () => {
             } 
             if(error)
             {
-                console.log("err", error);
                 alert(error);
                 window.location.reload();
             }

@@ -3,12 +3,13 @@ import { useParams } from "react-router";
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import { useNavigate } from 'react-router';
-import { Container } from '@mui/material';
+import { Card, Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@material-ui/core/Button';
+
 
 
 const PasswordVerify = () => {
@@ -73,6 +74,7 @@ const PasswordVerify = () => {
     if (status == true) {
         return (<>
             <Container className="bg-color">
+                <Card>
                 <Typography component="p" variant="p">
                     {status == "loading" ? <p>Loading..</p> : status == "failed" ? message : <h2>{message}</h2>}
                 </Typography>
@@ -97,6 +99,7 @@ const PasswordVerify = () => {
                         Save
                     </Button>
                 </form>
+                </Card>
             </Container>
         </>)
     }

@@ -57,7 +57,7 @@ const SignInScreen = (props) => {
         dispatch(SignIn({ user: user }));
 
     };
-    if (user_info) {
+    if (user_info && user_info.email) {
         localStorage.setItem('user_info', JSON.stringify(user_info));
         // const previous = localStorage.getItem('redirect');
         // // localStorage.removeItem('redirect')
@@ -68,7 +68,7 @@ const SignInScreen = (props) => {
 
     useEffect(() => {
         const check = localStorage.getItem('user_info') 
-        if (check) {
+        if (check && check.email) {
             navigate(redirect ? redirect : '/');
         }
     }, [user_info, redirect])

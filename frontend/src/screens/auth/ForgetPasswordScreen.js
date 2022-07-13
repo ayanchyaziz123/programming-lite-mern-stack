@@ -42,7 +42,7 @@ const ForgetPassword = () => {
     const [loading, setLoading] = useState(null);
     const [user_info, setUser_info] = useState('');
     
-
+    const check = JSON.parse(localStorage.getItem('user_info'));
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -62,14 +62,14 @@ const ForgetPassword = () => {
         setLoading('');
     }
 
-    // useEffect(() => {
-    //     if(user_info)
-    //     {
-    //         localStorage.setItem('user_info', JSON.stringify(user_info));
-    //         navigate("/");
-    //     }
+    useEffect(() => {
+          
+            if(check)
+            {
+                navigate("/");
+            }
 
-    // }, [user_info])
+    }, [check])
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -103,10 +103,10 @@ const ForgetPassword = () => {
                             autoFocus
                         />
 
-                        <FormControlLabel
+                        {/* <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
-                        />
+                        /> */}
                         <Button
                             type="submit"
                             fullWidth

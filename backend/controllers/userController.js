@@ -231,16 +231,16 @@ exports.SignUp = async (req, res, next) => {
             token: createToken,
         }).save();
 
-        // const message = `http://localhost:3000/api/user/verify/${savedUser.id}/${token.token}`;
-        // const check = await sendEmail(savedUser.email, "Verify Email", message);
-        // if (!check) {
-        //     await Token.findByIdAndRemove(savedUser._id);
-        //     await User.findByIdAndRemove(token._id);
-        //     return res.status(400).json({ error: "Your Given Email Does not work!!!" });
-        // }
-        // else {
+        const message = `http://localhost:3000/api/user/verify/${savedUser.id}/${token.token}`;
+        const check = await sendEmail(savedUser.email, "Verify Email", message);
+        if (!check) {
+            await Token.findByIdAndRemove(savedUser._id);
+            await User.findByIdAndRemove(token._id);
+            return res.status(400).json({ error: "Your Given Email Does not work!!!" });
+        }
+        else {
             return res.status(200).json({ "msg": "Go to email and verify your account!!!!" });
-        //}
+        }
     }
     catch (error) {
         console.log(error)
@@ -254,13 +254,15 @@ exports.SignUp_verification = async (req, res, next) => {
         const user = await User.findOne({ _id: req.params.id });
         if (!user) return res.status(400).json({ error: "Invalid Link" });
 
+        console.log('success-1');
+
         const token = await Token.findOne({
             userId: user._id,
             token: req.params.token,
         });
         if (!token) return res.status(400).json({ error: "Invalid Link" });
 
-
+        console.log('success-2');
         const id = { _id: user._id };
         const update = { verified: true };
         let ver = await User.findOneAndUpdate(id, update, {
@@ -268,22 +270,24 @@ exports.SignUp_verification = async (req, res, next) => {
         });
         const us = await User.findOne({ _id: req.params.id });
         await Token.findByIdAndRemove(token._id);
-
+        console.log('success-3');
         const tkn = jwt.sign({
             email: user.email,
             userId: user._id
         }, process.env.KEY, {
             expiresIn: '1h'
         })
+        console.log('success-4');
         const user_info = {
             firstName: user.firstName,
             lastName: user.lastName,
             userId: user._id,
             email: user.email,
             isAdmin: user.isAdmin,
-            profile_pic: existingUser.profile_pic,
+            profile_pic: user.profile_pic,
             access_token: tkn
         }
+        console.log('success');
         return res.status(200).json({
             "access_token": tkn,
             "user_info": user_info,
@@ -405,7 +409,7 @@ exports.UpdatePassword = async (req, res, next) => {
             userId: user._id,
             email: user.email,
             isAdmin: user.isAdmin,
-            profile_pic: existingUser.profile_pic,
+            profile_pic: user.profile_pic,
             access_token: tkn
         }
         res.status(200).json({
