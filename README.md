@@ -29,7 +29,7 @@ go to frontend folder and open cmd here
 npm i
 ```
 
-##Features
+## Features
 1.Create blog <br></br>
 2. View Blog <br></br>
 3. Comment and reply <br></br>
