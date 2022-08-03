@@ -16,14 +16,14 @@
 2. Nosql
 
 
+install node js in your machine
+
 ## Installation backend
 ```
-install node js in your machine
 npm i
 ```
 ## Installation frontend
 ```
-install node js in your machine
 npm i
 ```
 
