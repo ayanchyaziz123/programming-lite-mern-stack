@@ -29,13 +29,13 @@ go to frontend folder and open cmd here
 npm i
 ```
 
-#Features
+##Features
 1.Create blog <br></br>
 2. View Blog <br></br>
 3. Comment and reply <br></br>
 4. Authentication system with email verification 
 
-#screenshot
+##screenshot
 ## Home Page
 ![homepage](https://github.com/ayanchyaziz123/programming-lite-mern-stack/blob/master/scrrenshots/1.homepagedark.png?raw=true)
 
