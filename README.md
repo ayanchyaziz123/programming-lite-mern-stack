@@ -8,7 +8,7 @@
 1. [react](https://reactjs.org/)
 2. [material ui](https://react-bootstrap.github.io/)
 
-# Database
+## Database
 1. [mongoDB](mongodb) online
 
 ## Prerequisites
@@ -19,18 +19,20 @@
 install node js in your machine
 
 ## Installation backend
+go to backend folder and open cmd here
 ```
 npm i
 ```
 ## Installation frontend
+go to frontend folder and open cmd here
 ```
 npm i
 ```
 
 #Features
-1.Create blog
-2. View Blog
-3. Comment and reply
+1.Create blog <br></br>
+2. View Blog <br></br>
+3. Comment and reply <br></br>
 4. Authentication system with email verification 
 
 #screenshot
