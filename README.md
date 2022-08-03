@@ -26,3 +26,7 @@ npm i
 install node js in your machine
 npm i
 ```
+
+#screenshot
+
+[homepage](https://github.com/ayanchyaziz123/programming-lite-mern-stack/blob/master/scrrenshots/1.homepagedark.png?raw=true)
