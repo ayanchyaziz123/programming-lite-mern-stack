@@ -35,7 +35,7 @@ npm i
 3. Comment and reply <br></br>
 4. Authentication system with email verification 
 
-##screenshot
+## screenshot
 ## Home Page
 ![homepage](https://github.com/ayanchyaziz123/programming-lite-mern-stack/blob/master/scrrenshots/1.homepagedark.png?raw=true)
 
