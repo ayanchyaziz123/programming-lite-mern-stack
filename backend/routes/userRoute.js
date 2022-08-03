@@ -3,6 +3,7 @@ const router = express.Router();
 var multer = require('multer');
 
 const {DeleteUser ,UpdateAdminUser ,GetAdminUser, UpdateUser, GetUser, getUsers ,SignUp, SignUp_verification, SignIn, ResetPassword, ResetPasswordVerification, UpdatePassword} = require('../controllers/userController');
+const checkLogIn = require('../middleware/checkLogin');
 
 const fileStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -18,7 +19,7 @@ const fileStorageEngine = multer.diskStorage({
   // You can create multiple middleware each with a different storage engine config so save different files in different locations on server
   const upload = multer({ storage: fileStorageEngine });
 
-router.route('').get(getUsers);  
+router.route('').get(checkLogIn ,getUsers);  
 router.route('/userDetails/:id').get(GetAdminUser); // for admin
 router.route('/userProfile').post(GetUser); // for user
 router.route('/signUp').post(upload.single('profile_pic'),SignUp);

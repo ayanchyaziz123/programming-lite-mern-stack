@@ -148,7 +148,6 @@ const BlogSlice = createSlice({
 
         [retrieveBlogs.pending]: (state, action) => {
             state.status = "loading";
-            state.blogs = [];
         },
         [retrieveBlogs.fulfilled]: (state, action) => {
             state.status = "success";

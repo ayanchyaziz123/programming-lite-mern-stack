@@ -24,11 +24,10 @@ import {useLocation} from "react-router-dom";
 
 const HomeScreen = () =>{
     
-
-   
-
     const dispatch = useDispatch();
+    const data = useSelector(state => state.counter);
     const { blogs, message, status, page, pages } = useSelector(state => state.blogs);
+   
 
     const [searchParams] = useSearchParams();
     // const keyword = searchParams.get('keyword');
@@ -54,7 +53,7 @@ const HomeScreen = () =>{
             <Grid container spacing={2} >
                 <Grid xs={12} md={6} lg={3.5} sx={{ mt: 2 }} item>
                     <Subscribe />
-                    <Categories />
+                    {/* <Categories /> */}
 
                 </Grid>
                 {

@@ -138,8 +138,8 @@ exports.getAllBlogs = async (request, response, next) => {
             const p = await Post.find(
                 {
                     "$or": [
-                        { title: { $regex: query } },
-                        { description: { $regex: query } }
+                        { title: { $regex: query, $options : 'i' } },
+                        { description: { $regex: query, $options : 'i' } }
                     ]
                 }
             )

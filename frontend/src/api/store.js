@@ -10,6 +10,13 @@ const reducer = {
 }
 const store = configureStore({
     reducer: reducer,
+    preloadedState: {
+        counter: {
+           value: 10
+        }
+      },
     devTools: true,
 })
+
+
 export default store;
